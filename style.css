@@ -11,6 +11,7 @@
     --incorrect:#f77;
     --neutral:#5c5c66;
     --highlight:#37f;
+    --shadow:#5552;
     --outline-width:0.1rem;
     font-family:"Inter", sans-serif;
     color:var(--light-text);
@@ -118,14 +119,13 @@ button
     color:var(--light-text);
     border:none;
     outline:var(--outline-width) solid var(--neutral);
-    box-shadow:0 0.3rem 0 var(--outline-width) var(--neutral);
     margin:0.8rem;
     width:3.25rem;
     height:3.25rem;
     font-family:inherit;
     font-size:larger;
     border-radius:0.5rem;
-    transition:background-color 0.1s, outline-color 0.15s, box-shadow 0.2s, transform 0.2s;
+    transition:background-color 0.1s, color 0.1s, outline-color 0.15s;
 }
 
 button:hover
@@ -135,8 +135,6 @@ button:hover
 
 button:active
 {
-    transform:translateY(0.5rem);
-    box-shadow:0 0 0 var(--outline-width) var(--neutral);
     background-color:var(--highlight);
     color:var(--background-1);
 }

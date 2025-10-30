@@ -360,9 +360,9 @@ function createInputTable(table, container)
             inputElement.dataset.column = columnIndex + 1;
 
             inputElement.addEventListener("input", () => {
-                console.log(table[rowIndex + 1][columnIndex + 1]);
-                if ((useMacrons && inputElement.value == table[rowIndex + 1][columnIndex + 1]) ||
-                    (!useMacrons && inputElement.value == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
+                const inputValue = inputElement.value.trim().toLowerCase();
+                if ((useMacrons && inputValue == table[rowIndex + 1][columnIndex + 1]) ||
+                    (!useMacrons && inputValue == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
                 {
                     inputElement.classList.add("correct");
                     inputElement.classList.remove("incorrect");
