@@ -5,16 +5,16 @@
 {
     --background-1:#14141a;
     --background-2:#292933;
-    --light-text:#dfdfe6;
-    --dark-text:#0c0c0d;
+    --text-light:#dfdfe6;
+    --text-dark:#0c0c0d;
+    --neutral:#666671;
+    --highlight:#3070ee;
     --correct:#7f7;
     --incorrect:#f77;
-    --neutral:#5c5c66;
-    --highlight:#37f;
     --shadow:#5552;
-    --outline-width:0.1rem;
+    --outline-width:0.12rem;
     font-family:"Inter", sans-serif;
-    color:var(--light-text);
+    color:var(--text-light);
 }
 
 body
@@ -45,7 +45,7 @@ h1
 select
 {
     background-color:var(--background-1);
-    color:var(--light-text);
+    color:var(--text-light);
     border:none;
     outline:var(--outline-width) solid var(--neutral);
     margin-bottom:2rem;
@@ -87,7 +87,7 @@ input[type="checkbox"]
 input[type="text"]
 {
     background-color:var(--background-1);
-    color:var(--light-text);
+    color:var(--text-light);
     border:none;
     outline:var(--outline-width) solid var(--neutral);
     margin:0.1rem;
@@ -116,7 +116,7 @@ input[type="text"]:not(:focus).incorrect
 button
 {
     background-color:var(--background-1);
-    color:var(--light-text);
+    color:var(--text-light);
     border:none;
     outline:var(--outline-width) solid var(--neutral);
     margin:0.8rem;

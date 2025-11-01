@@ -276,6 +276,23 @@ document.addEventListener("keydown", (event) => {
                 }
             }
         }
+        else if (event.key == "Tab")
+        {
+            if (order == "column")
+            {
+                if (row < tables[currentTable].length - 1)
+                {
+                    nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
+                }
+                else
+                {
+                    if (column < tables[currentTable][0].length - 1)
+                    {
+                        nextFocus = document.querySelector(`[data-row="1"][data-column="${column + 1}"]`);
+                    }
+                }
+            }
+        }
 
         if (nextFocus)
         {
