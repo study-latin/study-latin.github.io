@@ -8,7 +8,7 @@ const specialCharacterButtonsContainer = document.getElementById("special-charac
 const inputEvent = new Event("input", {bubbles:true});
 
 let tables = {
-    "active present verb":[
+    "Active present verb endings":[
         ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
         ["1st person s.", "ō",         "eō",        "ō",         "iō",            "iō"],
         ["2nd person s.", "ās",        "ēs",        "is",        "is",            "īs"],
@@ -17,7 +17,52 @@ let tables = {
         ["2nd person p.", "ātis",      "ētis",      "itis",      "itis",          "ītis"],
         ["3rd person p.", "ant",       "ent",       "unt",       "iunt",          "iunt"]
     ],
-    "passive present verb":[
+    "Active imperfect verb endings":[
+        ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+        ["1st person s.", "ābam",      "ēbam",      "ēbam",      "iēbam",         "iēbam"],
+        ["2nd person s.", "ābās",      "ēbās",      "ēbās",      "iēbās",         "iēbās"],
+        ["3rd person s.", "ābat",      "ēbat",      "ēbat",      "iēbat",         "iēbat"],
+        ["1st person p.", "ābāmus",    "ēbāmus",    "ēbāmus",    "iēbāmus",       "iēbāmus"],
+        ["2nd person p.", "ābātis",    "ēbātis",    "ēbātis",    "iēbātis",       "iēbātis"],
+        ["3rd person p.", "ābant",     "ēbant",     "ēbant",     "iēbant",        "iēbant"]
+    ],
+    "Active future verb endings":[
+        ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+        ["1st person s.", "ābō",       "ēbō",       "am",        "iam",           "iam"],
+        ["2nd person s.", "ābis",      "ēbis",      "ēs",        "iēs",           "iēs"],
+        ["3rd person s.", "ābit",      "ēbit",      "et",        "iet",           "iet"],
+        ["1st person p.", "ābimus",    "ēbimus",    "ēmus",      "iēmus",         "iēmus"],
+        ["2nd person p.", "ābitis",    "ēbitis",    "ētis",      "iētis",         "iētis"],
+        ["3rd person p.", "ābunt",     "ēbunt",     "ent",       "ient",          "ient"]
+    ],
+    "Active perfect verb endings":[
+        ["",              "All conj."],
+        ["1st person s.", "ī"],
+        ["2nd person s.", "istī"],
+        ["3rd person s.", "it"],
+        ["1st person p.", "imus"],
+        ["2nd person p.", "istis"],
+        ["3rd person p.", "ērunt"]
+    ],
+    "Active pluperfect verb endings":[
+        ["",              "All conj."],
+        ["1st person s.", "eram"],
+        ["2nd person s.", "erās"],
+        ["3rd person s.", "erat"],
+        ["1st person p.", "erāmus"],
+        ["2nd person p.", "erātis"],
+        ["3rd person p.", "erant"]
+    ],
+    "Active future perfect verb endings":[
+        ["",              "All conj."],
+        ["1st person s.", "erō"],
+        ["2nd person s.", "eris"],
+        ["3rd person s.", "erit"],
+        ["1st person p.", "erimus"],
+        ["2nd person p.", "eritis"],
+        ["3rd person p.", "erint"]
+    ],
+    "Passive present verb endings":[
         ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
         ["1st person s.", "or",        "eor",       "or",        "ior",           "ior"],
         ["2nd person s.", "āris",      "ēris",      "eris",      "eris",          "īris"],
@@ -26,7 +71,52 @@ let tables = {
         ["2nd person p.", "āminī",     "ēminī",     "iminī",     "iminī",         "īminī"],
         ["3rd person p.", "antur",     "entur",     "untur",     "iuntur",        "iuntur"]
     ],
-    "is":[
+    "Passive imperfect verb endings":[
+        ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+        ["1st person s.", "ābar",      "ēbar",      "ēbar",      "iēbar",         "iēbar"],
+        ["2nd person s.", "ābāris",    "ēbāris",    "ēbāris",    "iēbāris",       "iēbāris"],
+        ["3rd person s.", "ābātur",    "ēbātur",    "ēbātur",    "iēbātur",       "iēbātur"],
+        ["1st person p.", "ābāmur",    "ēbāmur",    "ēbāmur",    "iēbāmur",       "iēbāmur"],
+        ["2nd person p.", "ābāminī",   "ēbāminī",   "ēbāminī",   "iēbāminī",      "iēbāminī"],
+        ["3rd person p.", "ābantur",   "ēbantur",   "ēbantur",   "iēbantur",      "iēbantur"]
+    ],
+    "Passive future verb endings":[
+        ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+        ["1st person s.", "ābor",      "ēbor",      "ar",        "iar",           "iar"],
+        ["2nd person s.", "āberis",    "ēberis",    "ēris",      "iēris",         "iēris"],
+        ["3rd person s.", "ābitur",    "ēbitur",    "ētur",      "iētur",         "iētur"],
+        ["1st person p.", "ābimur",    "ēbimur",    "ēmur",      "iēmur",         "iēmur"],
+        ["2nd person p.", "ābiminī",   "ēbiminī",   "ēminī",     "iēminī",        "iēminī"],
+        ["3rd person p.", "ābuntur",   "ēbuntur",   "entur",     "ientur",        "ientur"]
+    ],
+    // "Passive perfect verb endings":[
+    //     ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+    //     ["1st person s.", ],
+    //     ["2nd person s.", ],
+    //     ["3rd person s.", ],
+    //     ["1st person p.", ],
+    //     ["2nd person p.", ],
+    //     ["3rd person p.", ]
+    // ],
+    // "Passive pluperfect verb endings":[
+    //     ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+    //     ["1st person s.", ],
+    //     ["2nd person s.", ],
+    //     ["3rd person s.", ],
+    //     ["1st person p.", ],
+    //     ["2nd person p.", ],
+    //     ["3rd person p.", ]
+    // ],
+    // "Passive future perfect verb endings":[
+    //     ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
+    //     ["1st person s.", ],
+    //     ["2nd person s.", ],
+    //     ["3rd person s.", ],
+    //     ["1st person p.", ],
+    //     ["2nd person p.", ],
+    //     ["3rd person p.", ]
+    // ],
+    "Is, ea, id":[
         ["",        "M.",    "F.",     "N."],
         ["Nom. s.", "is",    "ea",     "id"],
         ["Gen. s.", "eius",  "eius",   "eius"],
@@ -39,7 +129,7 @@ let tables = {
         ["Acc. p.", "eōs",   "eās",    "ea"],
         ["Abl. p.", "eīs",   "eīs",    "eīs"]
     ],
-    "īdem":[
+    "Īdem, eadem, idem":[
         ["",        "M.",       "F.",       "N."],
         ["Nom. s.", "īdem",     "eadem",    "idem"],
         ["Gen. s.", "eiusdem",  "eiusdem",  "eiusdem"],
@@ -52,7 +142,7 @@ let tables = {
         ["Acc. p.", "eōsdem",   "eāsdem",   "eadem"],
         ["Abl. p.", "eīsdem",   "eīsdem",   "eīsdem"]
     ],
-    "quī":[
+    "Quī, quae, quod":[
         ["",        "M.",     "F.",     "N."],
         ["Nom. s.", "quī",    "quae",   "quod"],
         ["Gen. s.", "cuius",  "cuius",  "cuius"],
@@ -65,7 +155,7 @@ let tables = {
         ["Acc. p.", "quōs",   "quās",   "quōs"],
         ["Abl. p.", "quibus", "quibus", "quibus"]
     ],
-    "quīdam":[
+    "Quīdam, quaedam, quoddam":[
         ["",        "M.",        "F.",        "N."],
         ["Nom. s.", "quīdam",    "quaedam",   "quoddam"],
         ["Gen. s.", "cuiusdam",  "cuiusdam",  "cuiusdam"],
@@ -78,7 +168,7 @@ let tables = {
         ["Acc. p.", "quōsdam",   "quāsdam",   "quaedam"],
         ["Abl. p.", "quibusdam", "quibusdam", "quibusdam"]
     ],
-    "quis":[
+    "Quis, quis, quid":[
         ["",        "M.",     "F.",     "N."],
         ["Nom. s.", "quis",   "quis",   "quid"],
         ["Gen. s.", "cuius",  "cuius",  "cuius"],
@@ -91,7 +181,7 @@ let tables = {
         ["Acc. p.", "quōs",   "quās",   "quōs"],
         ["Abl. p.", "quibus", "quibus", "quibus"]
     ],
-    "ipse":[
+    "Ipse, ipsa, ipsum":[
         ["",        "M.",      "F.",      "N."],
         ["Nom. s.", "ipse",    "ipsa",    "ipsum"],
         ["Gen. s.", "ipsīus",  "ipsīus",  "ipsīus"],
@@ -104,7 +194,7 @@ let tables = {
         ["Acc. p.", "ipsōs",   "ipsās",   "ipsōs"],
         ["Abl. p.", "ipsīs",   "ipsīs",   "ipsīs"]
     ],
-    "sui":[
+    "_, sui":[
         ["",     "s. + p."],
         ["Nom.", "_"],
         ["Gen.", "suī"],
@@ -237,7 +327,9 @@ document.addEventListener("keydown", (event) => {
                 }
             }
         }
-        else if (event.key == "Backspace" && activeElement.value == "")
+        else if (event.key == "Backspace" &&
+                (activeElement.value == "" ||
+                    (activeElement.selectionStart == activeElement.selectionEnd && activeElement.selectionStart == 0)))
         {
             if (order == "row")
             {
