@@ -12,6 +12,9 @@
     --incorrect:#f77;
     --shadow:#5552;
     --outline-width:0.1rem;
+    --toggle-width:2.5rem;
+    --toggle-height:1.2rem;
+    --infinity:9999px;
     font-family:"Inter";
     color:var(--text-light);
 }
@@ -51,6 +54,7 @@ select
     padding:0.5rem;
     border-radius:0.5rem;
     transition-duration:0.15s;
+    cursor:pointer;
 }
 
 select:hover
@@ -66,6 +70,7 @@ select:focus
 label
 {
     font-size:0.8rem;
+    width:max-content;
 }
 
 table
@@ -80,7 +85,58 @@ th[scope="row"]
 
 input[type="checkbox"]
 {
+    visibility:hidden;
+}
+
+input[type="checkbox"]::before
+{
+    visibility:visible;
+    display:inline-block;
+    position:relative;
     vertical-align:middle;
+    content:"";
+    margin:0;
+    width:var(--toggle-width);
+    height:var(--toggle-height);
+    top:0rem;
+    left:0;
+    border-radius:var(--infinity);
+    outline:var(--outline-width) solid var(--neutral);
+    background-color:inherit;
+    transition:background-color 0.1s, outline-color 0.15s;
+    cursor:pointer;
+}
+
+input[type="checkbox"]:hover::before
+{
+    outline-color:var(--highlight);
+}
+
+input[type="checkbox"]:checked::before
+{
+    background-color:var(--highlight);
+    outline-color:var(--highlight);
+}
+
+input[type="checkbox"]::after
+{
+    visibility:visible;
+    display:block;
+    position:relative;
+    content:"";
+    margin:0;
+    width:var(--toggle-height);
+    height:var(--toggle-height);
+    top:calc(-1 * var(--toggle-height));
+    border-radius:var(--infinity);
+    background-color:var(--text-light);
+    transition-duration:0.17s;
+    cursor:pointer;
+}
+
+input[type="checkbox"]:checked::after
+{
+    transform:translateX(calc(var(--toggle-width) - var(--toggle-height)));
 }
 
 input[type="text"]
