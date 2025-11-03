@@ -59,8 +59,7 @@ select
     cursor:pointer;
 }
 
-select:focus,
-select:hover
+select:focus, select:hover
 {
     outline-color:var(--highlight);
 }
@@ -81,12 +80,12 @@ th[scope="row"]
     text-align:right;
 }
 
-label > span.toggle
+label > custom-toggle
 {
    margin-left:0.5rem;
 }
 
-span.toggle
+custom-toggle
 {
     visibility:visible;
     display:inline-block;
@@ -105,19 +104,18 @@ span.toggle
     cursor:pointer;
 }
 
-span.toggle:has(input[type="checkbox"]:focus),
-span.toggle:hover
+custom-toggle:focus, custom-toggle:hover
 {
     outline-color:var(--highlight);
 }
 
-span.toggle:has(input[type="checkbox"]:checked)
+custom-toggle[checked]
 {
     background-color:var(--highlight);
     outline-color:var(--highlight);
 }
 
-span.toggle::after
+custom-toggle::after
 {
     visibility:visible;
     display:block;
@@ -126,21 +124,15 @@ span.toggle::after
     margin:0;
     width:var(--toggle-height);
     height:var(--toggle-height);
-    top:calc(-1 * var(--toggle-height));
     border-radius:var(--infinity);
     background-color:var(--text-light);
     transition-duration:0.17s;
-    cursor:pointer;
+    /* cursor:pointer; */
 }
 
-span.toggle:has(input[type="checkbox"]:checked)::after
+custom-toggle[checked]::after
 {
     transform:translateX(calc(var(--toggle-width) - var(--toggle-height)));
-}
-
-span.toggle > input[type="checkbox"]
-{
-    opacity:0;
 }
 
 input[type="text"]
@@ -187,8 +179,7 @@ button
     transition:background-color 0.1s, color 0.1s, outline-color 0.15s;
 }
 
-button:focus,
-button:hover
+button:focus, button:hover
 {
     outline-color:var(--highlight);
 }
