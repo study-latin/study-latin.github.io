@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root
 {
@@ -15,7 +17,7 @@
     --toggle-width:2.5rem;
     --toggle-height:1.2rem;
     --infinity:9999px;
-    font-family:"Inter";
+    font-family:"Plus Jakarta Sans";
     color:var(--text-light);
 }
 
@@ -57,12 +59,8 @@ select
     cursor:pointer;
 }
 
+select:focus,
 select:hover
-{
-    outline-color:var(--highlight);
-}
-
-select:focus
 {
     outline-color:var(--highlight);
 }
@@ -83,12 +81,12 @@ th[scope="row"]
     text-align:right;
 }
 
-input[type="checkbox"]
+label > span.toggle
 {
-    visibility:hidden;
+   margin-left:0.5rem;
 }
 
-input[type="checkbox"]::before
+span.toggle
 {
     visibility:visible;
     display:inline-block;
@@ -98,7 +96,7 @@ input[type="checkbox"]::before
     margin:0;
     width:var(--toggle-width);
     height:var(--toggle-height);
-    top:0rem;
+    top:0;
     left:0;
     border-radius:var(--infinity);
     outline:var(--outline-width) solid var(--neutral);
@@ -107,18 +105,19 @@ input[type="checkbox"]::before
     cursor:pointer;
 }
 
-input[type="checkbox"]:hover::before
+span.toggle:has(input[type="checkbox"]:focus),
+span.toggle:hover
 {
     outline-color:var(--highlight);
 }
 
-input[type="checkbox"]:checked::before
+span.toggle:has(input[type="checkbox"]:checked)
 {
     background-color:var(--highlight);
     outline-color:var(--highlight);
 }
 
-input[type="checkbox"]::after
+span.toggle::after
 {
     visibility:visible;
     display:block;
@@ -134,9 +133,14 @@ input[type="checkbox"]::after
     cursor:pointer;
 }
 
-input[type="checkbox"]:checked::after
+span.toggle:has(input[type="checkbox"]:checked)::after
 {
     transform:translateX(calc(var(--toggle-width) - var(--toggle-height)));
+}
+
+span.toggle > input[type="checkbox"]
+{
+    opacity:0;
 }
 
 input[type="text"]
@@ -183,6 +187,7 @@ button
     transition:background-color 0.1s, color 0.1s, outline-color 0.15s;
 }
 
+button:focus,
 button:hover
 {
     outline-color:var(--highlight);
@@ -192,11 +197,6 @@ button:active
 {
     background-color:var(--highlight);
     color:var(--background-1);
-}
-
-button:focus
-{
-    outline-color:var(--highlight);
 }
 
 #main-inputs-container

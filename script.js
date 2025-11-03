@@ -177,11 +177,14 @@ orderSelectElement.addEventListener("input", () => {
 
 useMacronsElement.addEventListener("input", () => {
     useMacrons = useMacronsElement.checked;
-    for (let row = 1; row < tables[currentTable].length; row++)
+    if (currentTable)
     {
-        for (let column = 1; column < tables[currentTable][0].length; column++)
+        for (let row = 1; row < tables[currentTable].length; row++)
         {
-            document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
+            for (let column = 1; column < tables[currentTable][0].length; column++)
+            {
+                document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
+            }
         }
     }
 });
