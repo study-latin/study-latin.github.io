@@ -27,7 +27,7 @@ class CustomToggle extends HTMLElement
         }
 
         this.addEventListener("click", () => {
-            this.toggleAttribute("checked")
+            this.toggleAttribute("checked");
         });
         this.addEventListener("keydown", (event) => {
             if (event.key == " " || event.key == "Enter")
@@ -48,6 +48,7 @@ class CustomToggle extends HTMLElement
         if (name == "checked")
         {
             this.setAttribute("aria-checked", (this.hasAttribute("checked"))? "true":"false");
+            this.dispatchEvent(new Event("input", {bubble:true}));
         }
     }
 
