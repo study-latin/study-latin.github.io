@@ -176,7 +176,6 @@ orderSelectElement.addEventListener("input", () => {
 });
 
 useMacronsElement.addEventListener("input", () => {
-    console.log(useMacronsElement.checked)
     useMacrons = useMacronsElement.checked;
     if (currentTable)
     {

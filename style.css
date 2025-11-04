@@ -4,14 +4,14 @@
 
 :root
 {
-    --background-1:#14141a;
-    --background-2:#292933;
+    --background-1:#12131a;
+    --background-2:#242733;
     --text-light:#dfdfe6;
     --text-dark:#0c0c0d;
-    --neutral:#666671;
+    --neutral:#606671;
     --highlight:#3076f0;
-    --correct:#7f7;
-    --incorrect:#f77;
+    --correct:#6f6;
+    --incorrect:#f66;
     --shadow:#5552;
     --outline-width:0.1rem;
     --toggle-width:2.5rem;
@@ -126,8 +126,7 @@ custom-toggle::after
     height:var(--toggle-height);
     border-radius:var(--infinity);
     background-color:var(--text-light);
-    transition-duration:0.17s;
-    /* cursor:pointer; */
+    transition-duration:0.25s;
 }
 
 custom-toggle[checked]::after
@@ -177,6 +176,7 @@ button
     font-size:larger;
     border-radius:0.5rem;
     transition:background-color 0.1s, color 0.1s, outline-color 0.15s;
+    cursor:pointer;
 }
 
 button:focus, button:hover
