@@ -73,6 +73,7 @@ label
 table
 {
     align-self:center;
+    border-spacing:0.4rem 0.5rem;
 }
 
 th[scope="row"]

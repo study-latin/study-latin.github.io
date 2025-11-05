@@ -80,6 +80,69 @@
         ["2nd person p.", "ābiminī",   "ēbiminī",   "ēminī",     "iēminī",        "iēminī"],
         ["3rd person p.", "ābuntur",   "ēbuntur",   "entur",     "ientur",        "ientur"]
     ],
+    "Comparative adjective endings (-us, -a, -um, -is, -is, -e, -er, -a, -um, or -er, -is, -e)":[
+        ["",        "M. + F.", "N."],
+        ["Nom. s.", "ior",     "ius"],
+        ["Gen. s.", "iōris",   "iōris"],
+        ["Dat. s.", "iōrī",    "iōrī"],
+        ["Acc. s.", "iōrem",   "ius"],
+        ["Abl. s.", "iōre",    "iōre"],
+        ["Nom. p.", "iōrēs",   "iōra"],
+        ["Gen. p.", "iōrum",   "iōrum"],
+        ["Dat. p.", "iōribus", "iōribus"],
+        ["Acc. p.", "iōrēs",   "iōra"],
+        ["Abl. p.", "iōribus", "iōribus"]
+    ],
+    "Irregular comparative adjectives":[
+        ["",      "M. + F.", "N."],
+        ["Good",  "melior",  "melius"],
+        ["Bad",   "peior",   "peius"],
+        ["Great", "maior",   "maius"],
+        ["Small", "minor",   "minus"],
+        ["Much",  "plūs",    "plūs"],
+        ["Many",  "plūrēs",  "plūra"]
+    ],
+    "Superlative adjective endings (-us, -a, -um or -is, -is, -e)":[
+        ["",        "M.",   "F.",   "N."],
+        ["Nom. s.", "us",   "a",    "um"],
+        ["Gen. s.", "ī",    "ae",   "ī"],
+        ["Dat. s.", "ō",    "ae",   "ō"],
+        ["Acc. s.", "um",   "am",   "um"],
+        ["Abl. s.", "ō",    "ā",    "ō"],
+        ["Nom. p.", "ī",    "ae",   "a"],
+        ["Gen. p.", "ōrum", "ārum", "ōrum"],
+        ["Dat. p.", "īs",   "īs",   "īs"],
+        ["Acc. p.", "ōs",   "ās",   "ōs"],
+        ["Abl. p.", "īs",   "īs",   "īs"]
+    ],
+    "Superlative adjective endings (-er, -a, -um or -er, -is, -e)":[
+        ["",        "M.",      "F.",      "N."],
+        ["Nom. s.", "rimus",   "rima",    "rimum"],
+        ["Gen. s.", "rimī",    "rimae",   "rimī"],
+        ["Dat. s.", "rimō",    "rimae",   "rimō"],
+        ["Acc. s.", "rimum",   "rimam",   "rimum"],
+        ["Abl. s.", "rimō",    "rimā",    "rimō"],
+        ["Nom. p.", "rimī",    "rimae",   "rima"],
+        ["Gen. p.", "rimōrum", "rimārum", "rimōrum"],
+        ["Dat. p.", "rimīs",   "rimīs",   "rimīs"],
+        ["Acc. p.", "rimōs",   "rimās",   "rima"],
+        ["Abl. p.", "rimīs",   "rimīs",   "rimīs"]
+    ],
+    "Irregular superlative adjectives":[
+        ["",           "M.",           "F.",            "N."],
+        ["Good",       "optimus",       "optima",       "optimum"],
+        ["Bad",        "pessimus",      "pessima",      "pessimum"],
+        ["Great",      "maximus",       "maxima",       "maximum"],
+        ["Small",      "minimus",       "minima",       "minimum"],
+        ["Much",       "plurimus",      "plurima",      "plurimum"],
+        ["Many",       "plūrimī",       "plūrimae",     "plūrima"],
+        ["Easy",       "facillimus",    "facillima",    "facillimum"],
+        ["Difficult",  "difficillimus", "difficillima", "difficillimum"],
+        ["Similar",    "simillimus",    "simillima",    "simillimum"],
+        ["Dissimilar", "dissimillimus", "dissimillima", "dissimillimum"],
+        ["Slender",    "gracillimus",   "gracillima",   "gracillimum"],
+        ["Humble",     "humillimus",    "humillima",    "humillimum"]
+    ],
     "Is, ea, id":[
         ["",        "M.",    "F.",     "N."],
         ["Nom. s.", "is",    "ea",     "id"],
@@ -157,13 +220,5 @@
         ["Dat. p.", "ipsīs",   "ipsīs",   "ipsīs"],
         ["Acc. p.", "ipsōs",   "ipsās",   "ipsōs"],
         ["Abl. p.", "ipsīs",   "ipsīs",   "ipsīs"]
-    ],
-    "_, sui":[
-        ["",     "s. + p."],
-        ["Nom.", "_"],
-        ["Gen.", "suī"],
-        ["Dat.", "sibi"],
-        ["Acc.", "sē"],
-        ["Abl.", "sē"]
     ]
 }
