@@ -32,6 +32,7 @@ header
     background-color:var(--background-2);
     margin:0;
     padding:2rem;
+    width:100vw;
 }
 
 main
@@ -204,4 +205,20 @@ button:active
     flex-direction:row;
     align-self:center;
     margin:1rem;
+}
+
+footer
+{
+    background-color:var(--background-2);
+    position:absolute;
+    margin:0;
+    padding:2rem;
+    left:0;
+    bottom:0;
+    width:100vw;
+}
+
+a
+{
+    color:var(--highlight);
 }
