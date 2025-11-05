@@ -32,7 +32,7 @@ header
     background-color:var(--background-2);
     margin:0;
     padding:2rem;
-    width:100vw;
+    width:calc(100vw - 4rem);
 }
 
 main
@@ -212,10 +212,10 @@ footer
     background-color:var(--background-2);
     position:absolute;
     margin:0;
-    padding:1rem 1.75rem;
+    padding:1rem;
     left:0;
     bottom:0;
-    width:100vw;
+    width:calc(100vw - 2rem);
     font-size:small;
 }
 
