@@ -67,19 +67,8 @@ select:focus, select:hover
 
 label
 {
-    font-size:0.8rem;
     width:max-content;
-}
-
-table
-{
-    align-self:center;
-    border-spacing:0.4rem 0.5rem;
-}
-
-th[scope="row"]
-{
-    text-align:right;
+    font-size:small;
 }
 
 label > custom-toggle
@@ -136,6 +125,32 @@ custom-toggle[checked]::after
     transform:translateX(calc(var(--toggle-width) - var(--toggle-height)));
 }
 
+#main-inputs-container
+{
+    display:flex;
+    flex-direction:column;
+    align-self:center;
+}
+
+#special-character-buttons-container
+{
+    display:flex;
+    flex-direction:row;
+    align-self:center;
+    margin:1rem;
+}
+
+table
+{
+    align-self:center;
+    border-spacing:0.4rem 0.5rem;
+}
+
+th[scope="row"]
+{
+    text-align:right;
+}
+
 input[type="text"]
 {
     background-color:var(--background-1);
@@ -145,8 +160,8 @@ input[type="text"]
     margin:0.1rem;
     padding:0.5rem;
     width:5rem;
-    font-family:inherit;
     border-radius:0.5rem;
+    font-family:inherit;
     transition-duration:0.15s;
 }
 
@@ -174,9 +189,9 @@ button
     margin:0.8rem;
     width:3.25rem;
     height:3.25rem;
+    border-radius:0.5rem;
     font-family:inherit;
     font-size:larger;
-    border-radius:0.5rem;
     transition:background-color 0.1s, color 0.1s, outline-color 0.15s;
     cursor:pointer;
 }
@@ -192,30 +207,16 @@ button:active
     color:var(--background-1);
 }
 
-#main-inputs-container
-{
-    display:flex;
-    flex-direction:column;
-    align-self:center;
-}
-
-#special-character-buttons-container
-{
-    display:flex;
-    flex-direction:row;
-    align-self:center;
-    margin:1rem;
-}
-
 footer
 {
     background-color:var(--background-2);
     position:absolute;
     margin:0;
-    padding:2rem;
+    padding:1rem 1.75rem;
     left:0;
     bottom:0;
     width:100vw;
+    font-size:small;
 }
 
 a
