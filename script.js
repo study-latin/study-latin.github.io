@@ -10,7 +10,6 @@ const specialCharacters = ["ā", "ē", "ī", "ō", "ū"];
 const inputEvent = new Event("input", {bubbles:true});
 
 let currentTable = "";
-let useMacrons = useMacronsElement.checked;
 let order = orderSelectElement.value;
 
 function addTableSelectOptions(tables)
@@ -86,8 +85,8 @@ function createInputTable(table, container)
 
             inputElement.addEventListener("input", () => {
                 const inputValue = inputElement.value.trim().toLowerCase();
-                if ((useMacrons && inputValue == table[rowIndex + 1][columnIndex + 1]) ||
-                    (!useMacrons && removeMacrons(inputValue) == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
+                if ((useMacronsElement.checked && inputValue == table[rowIndex + 1][columnIndex + 1]) ||
+                    (!useMacronsElement.checked && removeMacrons(inputValue) == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
                 {
                     inputElement.classList.add("correct");
                     inputElement.classList.remove("incorrect");
@@ -169,7 +168,6 @@ orderSelectElement.addEventListener("input", () => {
 });
 
 useMacronsElement.addEventListener("input", () => {
-    useMacrons = useMacronsElement.checked;
     if (currentTable)
     {
         for (let row = 1; row < tables[currentTable].length; row++)
@@ -179,6 +177,7 @@ useMacronsElement.addEventListener("input", () => {
                 document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
             }
         }
+        useHintsElement.dispatchEvent(inputEvent);
     }
 });
 
@@ -189,7 +188,9 @@ useHintsElement.addEventListener("input", () => {
         {
             for (let column = 1; column < tables[currentTable][0].length; column++)
             {
-                document.querySelector(`[data-row="${row}"][data-column="${column}"]`).placeholder = (useHintsElement.checked)? tables[currentTable][row][column]:"";
+                const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
+                const placeholder = (useHintsElement.checked)? ((useMacronsElement.checked)? tables[currentTable][row][column]:removeMacrons(tables[currentTable][row][column])):"";
+                currentInputElement.placeholder = placeholder;
             }
         }
     }

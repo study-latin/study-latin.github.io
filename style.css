@@ -58,7 +58,7 @@ select
     color:var(--text-light);
     border:none;
     outline:var(--outline-width) solid var(--neutral);
-    margin-bottom:2rem;
+    margin-bottom:1.5rem;
     padding:0.5rem;
     border-radius:0.5rem;
     font-size:small;
@@ -73,13 +73,14 @@ select:focus, select:hover
 
 label
 {
+    margin-bottom:1.5rem;
     width:max-content;
     font-size:small;
 }
 
 label > custom-toggle
 {
-   margin-left:0.5rem;
+    margin-left:0.5rem;
 }
 
 custom-toggle
@@ -136,7 +137,7 @@ custom-toggle[checked]::after
     display:flex;
     flex-direction:column;
     align-self:center;
-    margin-top:1rem;
+    margin-top:0.5rem;
 }
 
 #special-character-buttons-container
