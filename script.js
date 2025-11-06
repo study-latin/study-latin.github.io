@@ -2,6 +2,7 @@ const mainElement = document.getElementById("main");
 const tableSelectElement = document.getElementById("table-select");
 const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
+const useHintsElement = document.getElementById("use-hints");
 const inputTableElement = document.getElementById("input-table");
 
 const specialCharacters = ["ā", "ē", "ī", "ō", "ū"];
@@ -176,6 +177,19 @@ useMacronsElement.addEventListener("input", () => {
             for (let column = 1; column < tables[currentTable][0].length; column++)
             {
                 document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
+            }
+        }
+    }
+});
+
+useHintsElement.addEventListener("input", () => {
+    if (currentTable)
+    {
+        for (let row = 1; row < tables[currentTable].length; row++)
+        {
+            for (let column = 1; column < tables[currentTable][0].length; column++)
+            {
+                document.querySelector(`[data-row="${row}"][data-column="${column}"]`).placeholder = (useHintsElement.checked)? tables[currentTable][row][column]:"";
             }
         }
     }

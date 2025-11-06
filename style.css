@@ -44,6 +44,7 @@ main
     display:flex;
     flex-direction:column;
     padding:2rem;
+    padding-bottom:1rem;
 }
 
 h1
@@ -150,7 +151,6 @@ table
 {
     align-self:center;
     border-spacing:0.4rem 0.5rem;
-    margin:0;
 }
 
 th[scope="row"]
