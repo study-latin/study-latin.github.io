@@ -86,7 +86,7 @@ function createInputTable(table, container)
             inputElement.addEventListener("input", () => {
                 const inputValue = inputElement.value.trim().toLowerCase();
                 if ((useMacrons && inputValue == table[rowIndex + 1][columnIndex + 1]) ||
-                    (!useMacrons && inputValue == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
+                    (!useMacrons && removeMacrons(inputValue) == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
                 {
                     inputElement.classList.add("correct");
                     inputElement.classList.remove("incorrect");
