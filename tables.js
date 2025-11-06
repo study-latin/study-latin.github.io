@@ -1,4 +1,4 @@
-{
+const tables = {
     "Active present verb endings":[
         ["",              "1st conj.", "2nd conj.", "3rd conj.", "3rd -io conj.", "4th conj."],
         ["1st person s.", "ō",         "eō",        "ō",         "iō",            "iō"],

@@ -3,28 +3,10 @@ const tableSelectElement = document.getElementById("table-select");
 const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
 const inputTableElement = document.getElementById("input-table");
-const specialCharacterButtonsContainer = document.getElementById("special-character-buttons-container");
 
 const specialCharacters = ["ā", "ē", "ī", "ō", "ū"];
 
 const inputEvent = new Event("input", {bubbles:true});
-
-let tables;
-await fetch("./tables.json")
-    .then((response) => {
-        if (!response.ok)
-        {
-            throw new Error(`HTTP error, status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-        tables = data;
-    })
-    .catch((error) => {
-        console.error(`Error fetching or parsing tables.json: ${error}`);
-    });
-
 
 let currentTable = "";
 let useMacrons = useMacronsElement.checked;
@@ -126,34 +108,47 @@ function createInputTable(table, container)
 
 function createSpecialCharacterButtons(characters, container)
 {
-    for (let character of characters)
+    let specialCharacterButtonsContainer = document.getElementById("special-character-buttons-container");
+    
+    if (!specialCharacterButtonsContainer)
     {
-        const button = document.createElement("button");
-        container.append(button);
+        specialCharacterButtonsContainer = document.createElement("div");
+        container.append(specialCharacterButtonsContainer);
+        
+        specialCharacterButtonsContainer.id = "special-character-buttons-container";
+    }
+    
+    if (specialCharacterButtonsContainer.children.length == 0)
+    {
+        for (let character of characters)
+        {
+            const button = document.createElement("button");
+            specialCharacterButtonsContainer.append(button);
 
-        button.className = "special-character-button";
-        button.textContent = character;
+            button.className = "special-character-button";
+            button.textContent = character;
 
-        button.addEventListener("mousedown", (event) => {
-            event.preventDefault();
-        });
+            button.addEventListener("mousedown", (event) => {
+                event.preventDefault();
+            });
 
-        button.addEventListener("click", () => {
-            const activeElement = document.activeElement;
+            button.addEventListener("click", () => {
+                const activeElement = document.activeElement;
 
-            if (activeElement.tagName == "INPUT")
-            {
-                const value = activeElement.value;
-                const start = activeElement.selectionStart;
-                const end = activeElement.selectionEnd;
-                const newCaretPosition = start + character.length;
+                if (activeElement.tagName == "INPUT")
+                {
+                    const value = activeElement.value;
+                    const start = activeElement.selectionStart;
+                    const end = activeElement.selectionEnd;
+                    const newCaretPosition = start + character.length;
 
-                activeElement.value = value.slice(0, start) + character + value.slice(end);
-                activeElement.selectionStart = newCaretPosition;
-                activeElement.selectionEnd = newCaretPosition;
-                activeElement.dispatchEvent(inputEvent);
-            }
-        });
+                    activeElement.value = value.slice(0, start) + character + value.slice(end);
+                    activeElement.selectionStart = newCaretPosition;
+                    activeElement.selectionEnd = newCaretPosition;
+                    activeElement.dispatchEvent(inputEvent);
+                }
+            });
+        }
     }
 }
 
@@ -165,10 +160,7 @@ function removeMacrons(text)
 tableSelectElement.addEventListener("input", () => {
     currentTable = tableSelectElement.value;
     createInputTable(tables[currentTable], mainElement);
-    if (specialCharacterButtonsContainer.children.length == 0)
-    {
-        createSpecialCharacterButtons(specialCharacters, specialCharacterButtonsContainer);
-    }
+    createSpecialCharacterButtons(specialCharacters, mainElement);
 });
 
 orderSelectElement.addEventListener("input", () => {
