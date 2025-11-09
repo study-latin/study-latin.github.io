@@ -81,14 +81,6 @@ const menuElement = document.getElementById("menu");
 const menuIconElement = document.getElementById("menu-icon");
 let menuOpen = false;
 
-// document.querySelector("#menu-icon").addEventListener("click", () => {
-//     menuElement.toggleAttribute("open");
-
-//     if (menuElement.hasAttribute("open"))
-//     {
-        
-//     }
-// });
 document.addEventListener("click", (event) => {
     const target = event.target;
 

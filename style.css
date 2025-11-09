@@ -63,7 +63,6 @@ header:has(#menu) > h1
 
 #menu[open] .menu-icon-line.top
 {
-    /* width:calc(pow(pow(var(--menu-icon-width) / 1rem, 2) + pow(var(--menu-icon-height) / 1rem, 2), 0.5) * 1rem); */
     transform:translateY(calc((var(--menu-icon-height) - var(--menu-icon-line-height) * 3) / 2 + var(--menu-icon-line-height))) rotate(135deg);
 }
 
@@ -75,13 +74,11 @@ header:has(#menu) > h1
 #menu[open] .menu-icon-line.middle
 {
     opacity:0;
-    /* width:calc(pow(pow(var(--menu-icon-width) / 1rem, 2) + pow(var(--menu-icon-height) / 1rem, 2), 0.5) * 1rem); */
     transform:rotate(180deg);
 }
 
 #menu[open] .menu-icon-line.bottom
 {
-    /* width:calc(pow(pow(var(--menu-icon-width) / 1rem, 2) + pow(var(--menu-icon-height) / 1rem, 2), 0.5) * 1rem); */
     transform:translateY(calc(-1 * ((var(--menu-icon-height) - var(--menu-icon-line-height) * 3) / 2 + var(--menu-icon-line-height)))) rotate(225deg);
 }
 
