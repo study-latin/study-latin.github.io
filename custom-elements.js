@@ -1,8 +1,12 @@
 class CustomToggle extends HTMLElement
 {
+    static formAssociated = true;
+
     constructor()
     {
         super();
+
+        this._internals = this.attachInternals();
     }
 
     connectedCallback()
@@ -15,25 +19,27 @@ class CustomToggle extends HTMLElement
 
         if (!this.hasAttribute("role"))
         {
-            this.setAttribute("role", "switch");
+            this.role = "switch";
         }
         if (!this.hasAttribute("tabindex"))
         {
-            this.setAttribute("tabindex", "0");
+            this.tabIndex = 0;
         }
         if (!this.hasAttribute("aria-checked"))
         {
-            this.setAttribute("aria-checked", (this.hasAttribute("checked"))? "true":"false");
+            this.ariaChecked = (this.hasAttribute("checked"))? "true":"false";
         }
 
         this.addEventListener("click", () => {
             this.toggleAttribute("checked");
+            this.dispatchEvent(new Event("input", {bubbles:true}));
         });
         this.addEventListener("keydown", (event) => {
             if (event.key == " " || event.key == "Enter")
             {
                 event.preventDefault();
                 this.toggleAttribute("checked");
+                this.dispatchEvent(new Event("input", {bubbles:true}));
             }
         });
     }
@@ -47,8 +53,9 @@ class CustomToggle extends HTMLElement
     {
         if (name == "checked")
         {
-            this.setAttribute("aria-checked", (this.hasAttribute("checked"))? "true":"false");
-            this.dispatchEvent(new Event("input", {bubble:true}));
+            const checked = this.hasAttribute("checked");
+            this.ariaChecked = (checked)? "true":"false";
+            this._internals.setFormValue((checked)? "on":null);
         }
     }
 
@@ -69,5 +76,30 @@ class CustomToggle extends HTMLElement
         }
     }
 }
+
+const menuElement = document.getElementById("menu");
+const menuIconElement = document.getElementById("menu-icon");
+let menuOpen = false;
+
+// document.querySelector("#menu-icon").addEventListener("click", () => {
+//     menuElement.toggleAttribute("open");
+
+//     if (menuElement.hasAttribute("open"))
+//     {
+        
+//     }
+// });
+document.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (target == menuIconElement || menuIconElement.contains(target))
+    {
+        menuElement.toggleAttribute("open");
+    }
+    else if (!(target == menuElement || menuElement.contains(target)))
+    {
+        menuElement.removeAttribute("open");
+    }
+});
 
 customElements.define("custom-toggle", CustomToggle);
