@@ -281,7 +281,7 @@ custom-toggle[checked]::after
     outline-color:var(--highlight);
 }
 
-#known-selection
+#flashcard-buttons
 {
     display:none;
     margin-top:2rem;
@@ -369,7 +369,7 @@ button:active
     height:3.25rem;
 }
 
-#known-selection > button
+#flashcard-buttons > button
 {
     display:flex;
     align-items:center;
@@ -379,55 +379,7 @@ button:active
     border-radius:var(--infinity);
 }
 
-/* #known:focus, #known:hover
-{
-    outline-color:var(--good);
-}
-
-#known:active
-{
-    background-color:var(--good);
-}
-
-#known::before
-{
-    display:inline-block;
-    position:relative;
-    content:"";
-    width:1.2rem;
-    height:0.2rem;
-    left:-0.7rem;
-    top:0.8rem;
-    border-radius:var(--infinity);
-    background-color:var(--good);
-    transform:rotate(45deg);
-}
-
-#known:active::before
-{
-    background-color:var(--background-1);
-}
-
-#known::after
-{
-    display:inline-block;
-    position:relative;
-    content:"";
-    width:2.2rem;
-    height:0.2rem;
-    left:0.4rem;
-    top:-0.95rem;
-    border-radius:var(--infinity);
-    background-color:var(--good);
-    transform:rotate(135deg);
-}
-
-#known:active::after
-{
-    background-color:var(--background-1);
-} */
-
-/* #unknown:focus, #unknown:hover
+#unknown:focus, #unknown:hover
 {
     outline-color:var(--bad);
 }
@@ -437,86 +389,53 @@ button:active
     background-color:var(--bad);
 }
 
-#unknown::before
+#known:focus, #known:hover
 {
-    display:inline-block;
-    position:relative;
-    content:"";
-    width:2.5rem;
-    height:0.2rem;
-    top:0.425rem;
-    border-radius:var(--infinity);
-    background-color:var(--bad);
-    transform:rotate(45deg);
+    outline-color:var(--good);
 }
 
-#unknown:active::before
+#known:active
 {
-    background-color:var(--background-1);
+    background-color:var(--good);
 }
 
-#unknown::after
+#restart:focus, #restart:hover
 {
-    display:inline-block;
-    position:relative;
-    content:"";
-    width:2.5rem;
-    height:0.2rem;
-    top:-1.025rem;
-    border-radius:var(--infinity);
-    background-color:var(--bad);
-    transform:rotate(135deg);
+    outline-color:var(--text-light);
 }
 
-#unknown:active::after
+#restart:active
 {
-    background-color:var(--background-1);
-} */
-
-#known-selection
-{
-    display:block;
+    background-color:var(--text-light);
 }
 
-/* #unknown
+#flashcard-buttons > button > svg
 {
-    display:flex;
-    align-items:center;
-    aspect-ratio:1/1;
-    width:min-content;
-    height:min-content;
-    border-radius:var(--infinity);
-} */
+    flex-grow:1;
+    stroke-width:12;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+#flashcard-buttons > button:active > svg
+{
+    stroke:var(--background-1);
+}
 
 #unknown svg
 {
-    flex-grow:1;
     stroke:var(--bad);
 }
 
 #known svg
 {
-    flex-grow:1;
-    /* stroke:var(--good); */
-}
-
-#restart
-{
-    display:none;
-    margin-top:5rem;
-    align-items:center;
-    aspect-ratio:1/1;
-    width:min-content;
-    height:min-content;
-    border-radius:var(--infinity);
+    stroke:var(--good);
 }
 
 #restart svg
 {
-    flex-grow:1;
     stroke:var(--text-light);
-    width:3rem;
-    height:3rem;
+    fill:none;
 }
 
 footer

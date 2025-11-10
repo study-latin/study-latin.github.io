@@ -1,7 +1,7 @@
 const setSelectElement = document.getElementById("set-select");
 const flashcardElement = document.getElementById("flashcard");
 const flashcardTextElement = document.getElementById("flashcard-text");
-const knownSelectionElement = document.getElementById("known-selection");
+const flashcardButtonsElement = document.getElementById("flashcard-buttons");
 const knownElement = document.getElementById("known");
 const unknownElement = document.getElementById("unknown");
 const restartElement = document.getElementById("restart");
@@ -33,8 +33,6 @@ function restartFlashcards(flashcardTextElement)
     if (unknownCards.length == 0)
     {
         flashcardTextElement.textContent = "You know all the flashcards! Press restart to see them all again.";
-        
-        knownSelectionElement.style.display = "none";
     }
     else
     {
@@ -53,8 +51,7 @@ setSelectElement.addEventListener("input", () => {
     currentCardSide = 0;
 
     flashcardElement.style.display = "flex";
-    knownSelectionElement.style.display = "block";
-    restartElement.style.display = "flex";
+    flashcardButtonsElement.style.display = "flex";
     displayFlashcard(flashcardTextElement);
 });
 
@@ -124,7 +121,7 @@ restartElement.addEventListener("click", () => {
     currentCardSide = 0;
 
     displayFlashcard(flashcardTextElement);
-    knownSelectionElement.style.display = "block";
+    flashcardButtonsElement.style.display = "flex";
 });
 
 addSetSelectOptions(setSelectElement);
