@@ -221,4 +221,4 @@ const tables = {
         ["Acc. p.", "ipsōs",   "ipsās",   "ipsōs"],
         ["Abl. p.", "ipsīs",   "ipsīs",   "ipsīs"]
     ]
-}
+};

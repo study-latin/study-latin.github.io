@@ -10,8 +10,8 @@
     --text-dark:#0c0c0d;
     --neutral:#606671;
     --highlight:#3076f0;
-    --correct:#6f6;
-    --incorrect:#f66;
+    --good:#6f6;
+    --bad:#f66;
     --shadow:#5552;
     --outline-width:0.1rem;
     --toggle-width:2.5rem;
@@ -33,11 +33,6 @@ body
     background-color:var(--background-1);
 }
 
-header:has(#menu) > h1
-{
-    margin-left:2rem;
-}
-
 #menu
 {
     display:block;
@@ -49,6 +44,7 @@ header:has(#menu) > h1
     position:relative;
     z-index:3;
     cursor:pointer;
+    user-select:none;
 }
 
 .menu-icon-line
@@ -58,7 +54,12 @@ header:has(#menu) > h1
     height:var(--menu-icon-line-height);
     border-radius:var(--infinity);
     background-color:var(--text-light);
-    transition-duration:0.4s;
+    transition:transform 0.4s, background-color 0.15s;
+}
+
+#menu-icon:hover .menu-icon-line
+{
+    background-color:var(--highlight);
 }
 
 #menu[open] .menu-icon-line.top
@@ -92,6 +93,7 @@ header:has(#menu) > h1
     top:0;
     background-color:var(--background-2);
     transition-duration:0.5s;
+    user-select:none;
 }
 
 #menu[open] #menu-content
@@ -108,7 +110,7 @@ header:has(#menu) > h1
     background-color:var(--background-2);
     color:var(--text-light);
     text-decoration:none;
-    transition-duration:0.15s;
+    transition-duration:0.1s;
 }
 
 .menu-item:hover
@@ -127,6 +129,31 @@ header
     background-color:var(--background-2);
 }
 
+a
+{
+    color:var(--highlight);
+}
+
+#title
+{
+    font-size:2rem;
+    font-weight:bold;
+    text-decoration:none;
+    color:inherit;
+    transition-duration:0.15s;
+    user-select:none;
+}
+
+#title:hover
+{
+    color:var(--highlight);
+}
+
+header:has(#menu) > #title
+{
+    margin-left:2rem;
+}
+
 main
 {
     flex-grow:1;
@@ -134,11 +161,6 @@ main
     flex-direction:column;
     padding:2rem;
     padding-bottom:1rem;
-}
-
-h1
-{
-    margin:0;
 }
 
 select
@@ -165,11 +187,14 @@ label
     margin-bottom:1.5rem;
     width:max-content;
     font-size:small;
+    user-select:none;
+    pointer-events:none;
 }
 
 label > custom-toggle
 {
     margin-left:0.5rem;
+    pointer-events:all;
 }
 
 custom-toggle
@@ -235,6 +260,44 @@ custom-toggle[checked]::after
     margin-top:1rem;
 }
 
+#flashcard
+{
+    display:none;
+    margin-top:2rem;
+    padding:2rem;
+    min-height:20rem;
+    align-items:center;
+    justify-content:center;
+    border-radius:2rem;
+    outline:var(--outline-width) solid var(--neutral);
+    background-color:var(--background-2);
+    transition-duration:0.15s;
+    cursor:pointer;
+    user-select:none;
+}
+
+#flashcard:hover
+{
+    outline-color:var(--highlight);
+}
+
+#known-selection
+{
+    display:none;
+    margin-top:2rem;
+    align-self:center;
+}
+
+p
+{
+    margin:0;
+}
+
+#flashcard
+{
+    font-size:1.5rem;
+}
+
 table
 {
     align-self:center;
@@ -267,12 +330,12 @@ input[type="text"]:not(.correct):focus
 
 input[type="text"].correct
 {
-    outline-color:var(--correct);
+    outline-color:var(--good);
 }
 
 input[type="text"]:not(:focus).incorrect
 {
-    outline-color:var(--incorrect);
+    outline-color:var(--bad);
 }
 
 button
@@ -281,14 +344,12 @@ button
     color:var(--text-light);
     border:none;
     outline:var(--outline-width) solid var(--neutral);
-    margin:0.8rem;
-    width:3.25rem;
-    height:3.25rem;
     border-radius:0.5rem;
     font-family:inherit;
-    font-size:larger;
+    font-size:1.2rem;
     transition:background-color 0.1s, color 0.1s, outline-color 0.15s;
     cursor:pointer;
+    user-select:none;
 }
 
 button:focus, button:hover
@@ -301,6 +362,163 @@ button:active
     background-color:var(--highlight);
 }
 
+.special-character-button
+{
+    margin:0.8rem;
+    width:3.25rem;
+    height:3.25rem;
+}
+
+#known-selection > button
+{
+    display:flex;
+    align-items:center;
+    margin:0 2rem;
+    width:4rem;
+    height:4rem;
+    border-radius:var(--infinity);
+}
+
+/* #known:focus, #known:hover
+{
+    outline-color:var(--good);
+}
+
+#known:active
+{
+    background-color:var(--good);
+}
+
+#known::before
+{
+    display:inline-block;
+    position:relative;
+    content:"";
+    width:1.2rem;
+    height:0.2rem;
+    left:-0.7rem;
+    top:0.8rem;
+    border-radius:var(--infinity);
+    background-color:var(--good);
+    transform:rotate(45deg);
+}
+
+#known:active::before
+{
+    background-color:var(--background-1);
+}
+
+#known::after
+{
+    display:inline-block;
+    position:relative;
+    content:"";
+    width:2.2rem;
+    height:0.2rem;
+    left:0.4rem;
+    top:-0.95rem;
+    border-radius:var(--infinity);
+    background-color:var(--good);
+    transform:rotate(135deg);
+}
+
+#known:active::after
+{
+    background-color:var(--background-1);
+} */
+
+/* #unknown:focus, #unknown:hover
+{
+    outline-color:var(--bad);
+}
+
+#unknown:active
+{
+    background-color:var(--bad);
+}
+
+#unknown::before
+{
+    display:inline-block;
+    position:relative;
+    content:"";
+    width:2.5rem;
+    height:0.2rem;
+    top:0.425rem;
+    border-radius:var(--infinity);
+    background-color:var(--bad);
+    transform:rotate(45deg);
+}
+
+#unknown:active::before
+{
+    background-color:var(--background-1);
+}
+
+#unknown::after
+{
+    display:inline-block;
+    position:relative;
+    content:"";
+    width:2.5rem;
+    height:0.2rem;
+    top:-1.025rem;
+    border-radius:var(--infinity);
+    background-color:var(--bad);
+    transform:rotate(135deg);
+}
+
+#unknown:active::after
+{
+    background-color:var(--background-1);
+} */
+
+#known-selection
+{
+    display:block;
+}
+
+/* #unknown
+{
+    display:flex;
+    align-items:center;
+    aspect-ratio:1/1;
+    width:min-content;
+    height:min-content;
+    border-radius:var(--infinity);
+} */
+
+#unknown svg
+{
+    flex-grow:1;
+    stroke:var(--bad);
+}
+
+#known svg
+{
+    flex-grow:1;
+    /* stroke:var(--good); */
+}
+
+#restart
+{
+    display:none;
+    margin-top:5rem;
+    align-items:center;
+    aspect-ratio:1/1;
+    width:min-content;
+    height:min-content;
+    border-radius:var(--infinity);
+}
+
+#restart svg
+{
+    flex-grow:1;
+    stroke:var(--text-light);
+    width:3rem;
+    height:3rem;
+}
+
 footer
 {
     background-color:var(--background-2);
@@ -308,14 +526,4 @@ footer
     box-sizing:border-box;
     width:100%;
     font-size:small;
-}
-
-p
-{
-    margin:0;
-}
-
-a
-{
-    color:var(--highlight);
 }

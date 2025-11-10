@@ -17,6 +17,7 @@ function addTableSelectOptions(tables)
     Object.keys(tables).forEach((tableName) => {
         const option = document.createElement("option");
         tableSelectElement.append(option);
+
         option.value = tableName;
         option.textContent = tableName;
     });
@@ -73,6 +74,7 @@ function createInputTable(table, container)
         {
             const tableDataElement = document.createElement("td");
             tableRowElement.append(tableDataElement);
+            
             const inputElement = document.createElement("input");
             tableDataElement.append(inputElement);
 
