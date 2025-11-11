@@ -8,7 +8,7 @@
     --background-2:#242733;
     --text-light:#dfdfe6;
     --text-dark:#0c0c0d;
-    --neutral:#606671;
+    --neutral:#505561;
     --highlight:#3076f0;
     --good:#6f6;
     --bad:#f66;
@@ -295,6 +295,16 @@ custom-toggle[checked]::after
     outline-color:var(--highlight);
 }
 
+#flashcard.good
+{
+    outline-color:var(--good);
+}
+
+#flashcard.bad
+{
+    outline-color:var(--bad);
+}
+
 #flashcard-buttons
 {
     display:none;
@@ -307,7 +317,7 @@ p
     margin:0;
 }
 
-#flashcard
+#flashcard-text
 {
     font-size:1.5rem;
 }

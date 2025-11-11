@@ -25,7 +25,11 @@ function addSetSelectOptions(setSelectElement)
 
 function displayFlashcard(flashcardTextElement)
 {
-    flashcardTextElement.textContent = unknownCards[currentCardIndex][currentCardSide];
+    flashcardElement.style.transform = "scaleY(0)";
+    setTimeout(() => {
+        flashcardElement.style.transform = "scaleY(1)";
+        flashcardTextElement.textContent = unknownCards[currentCardIndex][currentCardSide];
+    }, 200);
 }
 
 function restartFlashcards(flashcardTextElement)
@@ -52,7 +56,7 @@ setSelectElement.addEventListener("input", () => {
 
     flashcardElement.style.display = "flex";
     flashcardButtonsElement.style.display = "flex";
-    displayFlashcard(flashcardTextElement);
+    flashcardTextElement.textContent = unknownCards[currentCardIndex][currentCardSide];
 });
 
 flashcardElement.addEventListener("click", () => {
@@ -67,13 +71,13 @@ flashcardElement.addEventListener("click", () => {
 knownElement.addEventListener("mousedown", (event) => {
     if (event.button == 0)
     {
-        flashcardElement.style.outlineColor = "var(--good)";
+        flashcardElement.classList.add("good");
     }
 });
 knownElement.addEventListener("mouseup", (event) => {
     if (event.button == 0)
     {
-        flashcardElement.style.outlineColor = "var(--neutral)";
+        flashcardElement.classList.remove("good");
 
         unknownCards.splice(currentCardIndex, 1);
 
@@ -93,13 +97,13 @@ knownElement.addEventListener("mouseup", (event) => {
 unknownElement.addEventListener("mousedown", (event) => {
     if (event.button == 0)
     {
-        flashcardElement.style.outlineColor = "var(--bad)";
+        flashcardElement.classList.add("bad");
     }
 });
 unknownElement.addEventListener("mouseup", (event) => {
     if (event.button == 0)
     {
-        flashcardElement.style.outlineColor = "var(--neutral)";
+        flashcardElement.classList.remove("bad");
 
         if (currentCardIndex < unknownCards.length - 1)
         {
