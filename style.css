@@ -16,6 +16,7 @@
     --outline-width:0.1rem;
     --toggle-width:2.5rem;
     --toggle-height:1.2rem;
+    --header-padding:2rem;
     --menu-icon-width:1.5rem;
     --menu-icon-height:1.2rem;
     --menu-icon-line-height:0.2rem;
@@ -36,12 +37,21 @@ body
 #menu
 {
     display:block;
+    padding:0;
+    position:relative;
     z-index:2;
+}
+
+#menu[open]
+{
+    position:fixed;
 }
 
 #menu-icon
 {
-    position:relative;
+    position:absolute;
+    top:calc(var(--header-padding) + 0.6rem);
+    left:calc(var(--header-padding) + 0.6rem);
     width:var(--menu-icon-width);
     z-index:3;
     transition-duration:0.2s;
@@ -99,20 +109,21 @@ body
 
 #menu-content
 {
-    position:absolute;
+    padding-top:calc(var(--header-padding) * 2 + var(--menu-icon-height) * 2);
+    position:fixed;
     top:0;
-    left:-10rem;
-    padding-top:6.4rem;
-    min-width:calc(var(--menu-icon-width) + 4rem);
-    height:calc(100dvh - 6.4rem);
+    left:0;
+    min-width:calc(var(--menu-icon-width) + var(--header-padding) * 2);
+    height:100dvh;
     background-color:var(--background-2);
-    transition-duration:0.5s;
+    transform:translateX(-8rem);
+    transition-duration:0.4s;
     user-select:none;
 }
 
 #menu[open] #menu-content
 {
-    left:0;
+    transform:translateX(0);
 }
 
 .menu-item
@@ -138,7 +149,7 @@ header
     display:flex;
     align-items:center;
     box-sizing:border-box;
-    padding:2rem;
+    padding:var(--header-padding);
     width:100%;
     background-color:var(--background-2);
 }
@@ -150,6 +161,7 @@ a
 
 #title
 {
+    margin-left:calc(var(--header-padding) + var(--menu-icon-width) + 1rem);
     color:inherit;
     font-size:2rem;
     font-weight:bold;
@@ -161,11 +173,6 @@ a
 #title:hover
 {
     color:var(--highlight);
-}
-
-header:has(#menu) > #title
-{
-    margin-left:2rem;
 }
 
 main
