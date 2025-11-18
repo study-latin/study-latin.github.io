@@ -143,6 +143,25 @@ const tables = {
         ["Slender",    "gracillimus",   "gracillima",   "gracillimum"],
         ["Humble",     "humillimus",    "humillima",    "humillimum"]
     ],
+    "Irregular positive adverbs":[
+        ["",         "Pos."],
+        ["Boldly",   "audacter"],
+        ["Easily",   "facile"],
+        ["Well",     "bene"],
+        ["Badly",    "male"],
+        ["Greatly",  "magnopere"],
+        ["A little", "paulum"],
+        ["A lot",    "multum"]
+    ],
+    "Irregular comparative adverbs":[
+        ["",        "Comp."],
+        ["Greatly", "magis"],
+        ["A lot",   "plūs"]
+    ],
+    "Irregular superlative adverbs":[
+        ["",      "Sup."],
+        ["A lot", "pluriumum"]
+    ],
     "Is, ea, id":[
         ["",        "M.",    "F.",     "N."],
         ["Nom. s.", "is",    "ea",     "id"],
