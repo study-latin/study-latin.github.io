@@ -144,23 +144,32 @@ const tables = {
         ["Humble",     "humillimus",    "humillima",    "humillimum"]
     ],
     "Irregular positive adverbs":[
-        ["",         "Pos."],
-        ["Boldly",   "audacter"],
-        ["Easily",   "facile"],
-        ["Well",     "bene"],
-        ["Badly",    "male"],
-        ["Greatly",  "magnopere"],
-        ["A little", "paulum"],
-        ["A lot",    "multum"]
+        ["",                "Pos."],
+        ["Boldly",          "audacter"],
+        ["Easily",          "facile"],
+        ["Well",            "bene"],
+        ["Badly",           "male"],
+        ["Greatly",         "magnopere"],
+        ["A little",        "paulum"],
+        ["A lot",           "multum"],
+        ["For a long time", "diū"],
+        ["Often",           "saepe"],
+        ["Late",            "sērō"]
     ],
     "Irregular comparative adverbs":[
-        ["",        "Comp."],
-        ["Greatly", "magis"],
-        ["A lot",   "plūs"]
+        ["",                "Comp."],
+        ["Greatly",         "magis"],
+        ["A lot",           "plūs"],
+        ["For a long time", "diūtius"],
+        ["Often",           "saepius"],
+        ["Late",            "sērius"]
     ],
     "Irregular superlative adverbs":[
-        ["",      "Sup."],
-        ["A lot", "pluriumum"]
+        ["",                "Sup."],
+        ["A lot",           "pluriumum"],
+        ["For a long time", "diūtissimē"],
+        ["Often",           "saepissimē"],
+        ["Late",            "sērissimē"]
     ],
     "Is, ea, id":[
         ["",        "M.",    "F.",     "N."],
