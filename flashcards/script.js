@@ -12,7 +12,7 @@ let unknownCards = [];
 let currentCardIndex = 0;
 let currentCardSide = 0;
 
-function addSetSelectOptions(setSelectElement)
+function addSetSelectOptions()
 {
     Object.keys(sets).forEach((setName) => {
         const option = document.createElement("option");
@@ -23,26 +23,36 @@ function addSetSelectOptions(setSelectElement)
     });
 }
 
-function displayFlashcard(flashcardTextElement)
+function flipFlashcard(textContent)
 {
     flashcardElement.style.transform = "scaleY(0)";
     setTimeout(() => {
         flashcardElement.style.transform = "scaleY(1)";
-        flashcardTextElement.textContent = unknownCards[currentCardIndex][currentCardSide];
+        flashcardTextElement.textContent = textContent;
     }, 200);
 }
 
-function restartFlashcards(flashcardTextElement)
+function switchFlashcard(textContent)
+{
+    flashcardElement.style.opacity = "0";
+    setTimeout(() => {
+        flashcardElement.style.opacity = "1";
+        flashcardTextElement.textContent = textContent;
+    }, 200);
+}
+
+function restartFlashcards()
 {
     if (unknownCards.length == 0)
     {
-        flashcardTextElement.textContent = "You know all the flashcards! Press restart to see them all again.";
+        switchFlashcard("You know all the flashcards! Press restart to see them all again.");
     }
     else
     {
         currentCardIndex = 0;
+        currentCardSide = 0;
 
-        displayFlashcard(flashcardTextElement);
+        switchFlashcard(unknownCards[currentCardIndex][currentCardSide]);
     }
 }
 
@@ -64,7 +74,7 @@ flashcardElement.addEventListener("click", () => {
     {
         currentCardSide = (currentCardSide + 1) % 2;
 
-        displayFlashcard(flashcardTextElement);
+        flipFlashcard(unknownCards[currentCardIndex][currentCardSide]);
     }
 });
 
@@ -79,17 +89,20 @@ knownElement.addEventListener("mouseup", (event) => {
     {
         flashcardElement.classList.remove("good");
 
-        unknownCards.splice(currentCardIndex, 1);
+        if (currentCardIndex < unknownCards.length)
+        {
+            unknownCards.splice(currentCardIndex, 1);
+        }
 
         if (currentCardIndex < unknownCards.length)
         {
             currentCardSide = 0;
-
-            displayFlashcard(flashcardTextElement);
+            
+            switchFlashcard(unknownCards[currentCardIndex][currentCardSide]);
         }
         else
         {
-            restartFlashcards(flashcardTextElement);
+            restartFlashcards();
         }
     }
 });
@@ -110,11 +123,11 @@ unknownElement.addEventListener("mouseup", (event) => {
             currentCardIndex++;
             currentCardSide = 0;
 
-            displayFlashcard(flashcardTextElement);
+            switchFlashcard(unknownCards[currentCardIndex][currentCardSide]);
         }
         else
         {
-            restartFlashcards(flashcardTextElement);
+            restartFlashcards();
         }
     }
 });
@@ -124,7 +137,7 @@ restartElement.addEventListener("click", () => {
     currentCardIndex = 0;
     currentCardSide = 0;
 
-    displayFlashcard(flashcardTextElement);
+    switchFlashcard(unknownCards[currentCardIndex][currentCardSide]);
     flashcardButtonsElement.style.display = "flex";
 });
 
