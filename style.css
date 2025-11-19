@@ -295,6 +295,7 @@ custom-toggle[checked]::after
     border-radius:2rem;
     outline:var(--outline-width) solid var(--neutral);
     background-color:var(--background-2);
+    box-shadow:0 1rem 1rem 0 var(--shadow);
     transition-duration:0.15s;
     cursor:pointer;
     user-select:none;
