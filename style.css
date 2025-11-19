@@ -6,14 +6,15 @@
 {
     --background-1:#12131a;
     --background-2:#242733;
+    --background-3:#363850;
     --text-light:#dfdfe6;
     --text-dark:#0c0c0d;
     --neutral:#505561;
     --highlight:#3076f0;
     --good:#6f6;
     --bad:#f66;
-    --shadow:#5552;
-    --outline-width:0.1rem;
+    --shadow:#0004;
+    --outline-width:1px;
     --toggle-width:2.5rem;
     --toggle-height:1.2rem;
     --header-padding:2rem;
@@ -123,6 +124,7 @@ body
 
 #menu[open] #menu-content
 {
+    box-shadow:0 0 1rem 0.8rem var(--shadow);
     transform:translateX(0);
 }
 
@@ -152,6 +154,7 @@ header
     padding:var(--header-padding);
     width:100%;
     background-color:var(--background-2);
+    box-shadow:0 0 1rem 0.8rem var(--shadow);
 }
 
 a
@@ -251,8 +254,8 @@ custom-toggle::after
 {
     content:"";
     display:block;
-    position:relative;
     margin:0;
+    position:relative;
     width:var(--toggle-height);
     height:var(--toggle-height);
     border-radius:var(--infinity);
@@ -476,4 +479,5 @@ footer
     width:100%;
     background-color:var(--background-2);
     font-size:small;
+    box-shadow:0 0 1rem 0.8rem var(--shadow);
 }
