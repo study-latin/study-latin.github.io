@@ -1,6 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root
 {
@@ -117,8 +115,8 @@ body
     min-width:calc(var(--menu-icon-width) + var(--header-padding) * 2);
     height:100dvh;
     background-color:var(--background-2);
-    transform:translateX(-8rem);
-    transition-duration:0.4s;
+    transform:translateX(-10rem);
+    transition:transform 0.4s;
     user-select:none;
 }
 
