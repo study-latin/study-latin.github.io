@@ -7,24 +7,32 @@
         <title>Dates | Study Latin</title>
     </head>
     <body>
-        <div id="menu">
-            <div id="menu-icon">
-                <span class="menu-icon-line top"></span>
-                <span class="menu-icon-line middle"></span>
-                <span class="menu-icon-line bottom"></span>
-            </div>
-            <div id="menu-content">
-                <a href="../" class="menu-item">Home</a>
-                <a href="../flashcards" class="menu-item">Flashcards</a>
-                <a href="../tables" class="menu-item">Tables</a>
-                <a href="" class="menu-item">Dates</a>
-            </div>
-        </div>
         <header>
+            <custom-menu>
+                <div id="menu-content">
+                    <a href="../" class="menu-item">Home</a>
+                    <a href="../flashcards" class="menu-item">Flashcards</a>
+                    <a href="../tables" class="menu-item">Tables</a>
+                    <a href="" class="menu-item">Dates</a>
+                </div>
+            </custom-menu>
             <a href="../" id="title">Study Latin</a>
         </header>
         <main>
-            working on this page...
+            <div id="date-selection-div">
+                <div class="toggle-div">
+                    <label>Years<custom-toggle id="years" checked></custom-toggle></label>
+                    <label>C.E./B.C.E. &rightarrow; A.U.C.<custom-toggle id="to-auc" checked></custom-toggle></label>
+                    <label>A.U.C. &rightarrow; C.E./B.C.E.<custom-toggle id="from-auc" checked></custom-toggle></label>
+                </div>
+                <div class="toggle-div">
+                    <label>Days + Months<custom-toggle id="days" checked></custom-toggle></label>
+                    <label>English &rightarrow; Latin<custom-toggle id="to-latin" checked></custom-toggle></label>
+                    <label>Latin &rightarrow; English<custom-toggle id="from-latin" checked></custom-toggle></label>
+                </div>
+            </div>
+            <p id="prompt"></p>
+            <input id="input" type="text">
         </main>
         <footer>
             <p>Suggestions/bug reports <a href="mailto:studylatin1@gmail.com">here</a></p>
