@@ -156,7 +156,7 @@ function createSpecialCharacterButtons(characters, container)
 
 function removeMacrons(text)
 {
-    return text.replace("ā", "a").replace("ē", "e").replace("ī", "i").replace("ō", "o").replace("ū", "u");
+    return text.replaceAll("ā", "a").replaceAll("ē", "e").replaceAll("ī", "i").replaceAll("ō", "o").replaceAll("ū", "u").replaceAll("Ā", "A").replaceAll("Ē", "E").replaceAll("Ī", "I").replaceAll("Ō", "O").replaceAll("Ū", "U");
 }
 
 tableSelectElement.addEventListener("input", () => {

@@ -264,19 +264,6 @@ custom-toggle[checked]::after
     transform:translateX(calc(var(--toggle-width) - var(--toggle-height)));
 }
 
-.toggle-div
-{
-    display:flex;
-    flex-direction:column;
-}
-
-#date-selection-div
-{
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-}
-
 #main-inputs-container
 {
     display:flex;
@@ -489,9 +476,11 @@ button:active
     font-size:1.5rem;
 }
 
-#input
+#date-input
 {
     align-self:center;
+    width:100%;
+    text-align:center;
 }
 
 footer

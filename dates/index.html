@@ -19,25 +19,20 @@
             <a href="../" id="title">Study Latin</a>
         </header>
         <main>
-            <div id="date-selection-div">
-                <div class="toggle-div">
-                    <label>Years<custom-toggle id="years" checked></custom-toggle></label>
-                    <label>C.E./B.C.E. &rightarrow; A.U.C.<custom-toggle id="to-auc" checked></custom-toggle></label>
-                    <label>A.U.C. &rightarrow; C.E./B.C.E.<custom-toggle id="from-auc" checked></custom-toggle></label>
-                </div>
-                <div class="toggle-div">
-                    <label>Days + Months<custom-toggle id="days" checked></custom-toggle></label>
-                    <label>English &rightarrow; Latin<custom-toggle id="to-latin" checked></custom-toggle></label>
-                    <label>Latin &rightarrow; English<custom-toggle id="from-latin" checked></custom-toggle></label>
-                </div>
-            </div>
+            <label>Years<custom-toggle id="years" checked></custom-toggle></label>
+            <label>Days + Months<custom-toggle id="days" checked></custom-toggle></label>
+            <label>English &rightarrow; Latin<custom-toggle id="to-latin" checked></custom-toggle></label>
+            <label>Latin &rightarrow; English<custom-toggle id="from-latin" checked></custom-toggle></label>
+            <label>Use macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
+            <label>Use hints<custom-toggle id="use-hints"></custom-toggle></label>
             <p id="prompt"></p>
-            <input id="input" type="text">
+            <input id="date-input" type="text">
         </main>
         <footer>
             <p>Suggestions/bug reports <a href="mailto:studylatin1@gmail.com">here</a></p>
         </footer>
         <script src="../custom-elements.js"></script>
+        <script src="../dates/months.js"></script>
         <script src="../dates/script.js"></script>
     </body>
 </html>
