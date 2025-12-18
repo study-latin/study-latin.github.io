@@ -157,20 +157,20 @@ dateInputElement.addEventListener("keydown", (event) => {
         {
             dateInputElement.value = "";
             
-            dateInputElement.classList.add("correct");
-            dateInputElement.classList.remove("incorrect");
+            dateInputElement.classList.add("good");
+            dateInputElement.classList.remove("bad");
             setTimeout(() => {
-                dateInputElement.classList.remove("correct");
+                dateInputElement.classList.remove("good");
             }, 200);
 
             newPrompt();
         }
         else
         {
-            dateInputElement.classList.add("incorrect");
-            dateInputElement.classList.remove("correct");
+            dateInputElement.classList.add("bad");
+            dateInputElement.classList.remove("good");
             setTimeout(() => {
-                dateInputElement.classList.remove("incorrect");
+                dateInputElement.classList.remove("bad");
             }, 200);
         }
     }

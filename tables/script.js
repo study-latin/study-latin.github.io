@@ -76,18 +76,18 @@ function createInputTable()
                 if ((useMacronsElement.checked && inputValue == currentTable[rowIndex + 1][columnIndex + 1]) ||
                     (!useMacronsElement.checked && removeMacrons(inputValue) == removeMacrons(currentTable[rowIndex + 1][columnIndex + 1])))
                 {
-                    inputElement.classList.add("correct");
-                    inputElement.classList.remove("incorrect");
+                    inputElement.classList.add("good");
+                    inputElement.classList.remove("bad");
                 }
                 else
                 {
-                    inputElement.classList.add("incorrect");
-                    inputElement.classList.remove("correct");
+                    inputElement.classList.add("bad");
+                    inputElement.classList.remove("good");
                 }
 
                 if (inputElement.value == "")
                 {
-                    inputElement.classList.remove("incorrect");
+                    inputElement.classList.remove("bad");
                 }
             });
         }
@@ -341,9 +341,9 @@ document.addEventListener("keydown", (event) => {
             event.preventDefault();
             nextFocus.focus();
 
-            if (!activeElement.classList.contains("correct") && activeElement.value != "")
+            if (!activeElement.classList.contains("good") && activeElement.value != "")
             {
-                activeElement.classList.add("incorrect");
+                activeElement.classList.add("bad");
             }
         }
     }

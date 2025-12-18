@@ -302,14 +302,14 @@ custom-toggle[checked]::after
     outline-color:var(--highlight);
 }
 
-#flashcard.good
+.good
 {
-    outline-color:var(--good);
+    outline-color:var(--good)!important;
 }
 
-#flashcard.bad
+.bad
 {
-    outline-color:var(--bad);
+    outline-color:var(--bad)!important;
 }
 
 #flashcard-buttons
@@ -354,19 +354,14 @@ input[type="text"]
     transition-duration:0.15s;
 }
 
-input[type="text"]:not(.correct):hover, input[type="text"]:not(.correct):focus
+input[type="text"]:hover, input[type="text"]:focus
+{
+    outline-color:var(--highlight);
+}
+
+.table-input.bad:hover, .table-input.bad:focus
 {
     outline-color:var(--highlight)!important;
-}
-
-input[type="text"].correct
-{
-    outline-color:var(--good);
-}
-
-input[type="text"]:not(:focus).incorrect
-{
-    outline-color:var(--bad);
 }
 
 button
