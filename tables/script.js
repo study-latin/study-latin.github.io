@@ -161,8 +161,14 @@ function removeMacrons(text)
 
 tableSelectElement.addEventListener("input", () => {
     currentTable = tableSelectElement.value;
+
     createInputTable(tables[currentTable], mainElement);
     createSpecialCharacterButtons(specialCharacters, mainElement);
+
+    if (useHintsElement.checked)
+    {
+        useHintsElement.dispatchEvent(inputEvent);
+    }
 });
 
 orderSelectElement.addEventListener("input", () => {
