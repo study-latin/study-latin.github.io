@@ -5,14 +5,12 @@ const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
 const inputTableElement = document.getElementById("input-table");
 
-const specialCharacters = ["ā", "ē", "ī", "ō", "ū"];
-
 const inputEvent = new Event("input", {bubbles:true});
 
-let currentTable = "";
+let currentTable = [];
 let order = orderSelectElement.value;
 
-function addTableSelectOptions(tables)
+function addTableSelectOptions()
 {
     Object.keys(tables).forEach((tableName) => {
         const option = document.createElement("option");
@@ -23,23 +21,11 @@ function addTableSelectOptions(tables)
     });
 }
 
-function createInputTable(table, container)
+function createInputTable()
 {
-    let tableElement = document.getElementById("input-table");
+    const tableElement = document.getElementById("input-table");
 
-    if (!tableElement)
-    {
-        tableElement = document.createElement("table");
-        container.append(tableElement);
-
-        tableElement.id = "input-table";
-    }
-    else
-    {
-        tableElement.innerHTML = "";
-    }
-
-    tableElement.style.justifyItems = "center";
+    tableElement.innerHTML = "";
 
     const tableHeadElement = document.createElement("thead");
     tableElement.append(tableHeadElement);
@@ -47,7 +33,7 @@ function createInputTable(table, container)
     const headTableRowElement = document.createElement("tr");
     tableHeadElement.append(headTableRowElement);
 
-    for (let columnLabel of table[0])
+    for (let columnLabel of currentTable[0])
     {
         const tableHeaderElement = document.createElement("th");
         headTableRowElement.append(tableHeaderElement);
@@ -59,7 +45,7 @@ function createInputTable(table, container)
     const tableBody = document.createElement("tbody");
     tableElement.append(tableBody);
 
-    for (let rowIndex = 0; rowIndex < table.length - 1; rowIndex++)
+    for (let rowIndex = 0; rowIndex < currentTable.length - 1; rowIndex++)
     {
         const tableRowElement = document.createElement("tr");
         tableBody.append(tableRowElement);
@@ -68,9 +54,9 @@ function createInputTable(table, container)
         tableRowElement.append(tableHeaderElement);
 
         tableHeaderElement.scope = "row";
-        tableHeaderElement.textContent = table[rowIndex + 1][0];
+        tableHeaderElement.textContent = currentTable[rowIndex + 1][0];
 
-        for (let columnIndex = 0; columnIndex < table[0].length - 1; columnIndex++)
+        for (let columnIndex = 0; columnIndex < currentTable[0].length - 1; columnIndex++)
         {
             const tableDataElement = document.createElement("td");
             tableRowElement.append(tableDataElement);
@@ -87,8 +73,8 @@ function createInputTable(table, container)
 
             inputElement.addEventListener("input", () => {
                 const inputValue = inputElement.value.trim().toLowerCase();
-                if ((useMacronsElement.checked && inputValue == table[rowIndex + 1][columnIndex + 1]) ||
-                    (!useMacronsElement.checked && removeMacrons(inputValue) == removeMacrons(table[rowIndex + 1][columnIndex + 1])))
+                if ((useMacronsElement.checked && inputValue == currentTable[rowIndex + 1][columnIndex + 1]) ||
+                    (!useMacronsElement.checked && removeMacrons(inputValue) == removeMacrons(currentTable[rowIndex + 1][columnIndex + 1])))
                 {
                     inputElement.classList.add("correct");
                     inputElement.classList.remove("incorrect");
@@ -108,21 +94,21 @@ function createInputTable(table, container)
     }
 }
 
-function createSpecialCharacterButtons(characters, container)
+function createSpecialCharacterButtons()
 {
     let specialCharacterButtonsContainer = document.getElementById("special-character-buttons-container");
     
     if (!specialCharacterButtonsContainer)
     {
         specialCharacterButtonsContainer = document.createElement("div");
-        container.append(specialCharacterButtonsContainer);
+        mainElement.append(specialCharacterButtonsContainer);
         
         specialCharacterButtonsContainer.id = "special-character-buttons-container";
     }
     
     if (specialCharacterButtonsContainer.children.length == 0)
     {
-        for (let character of characters)
+        for (let character of ["ā", "ē", "ī", "ō", "ū"])
         {
             const button = document.createElement("button");
             specialCharacterButtonsContainer.append(button);
@@ -160,10 +146,10 @@ function removeMacrons(text)
 }
 
 tableSelectElement.addEventListener("input", () => {
-    currentTable = tableSelectElement.value;
+    currentTable = tables[tableSelectElement.value];
 
-    createInputTable(tables[currentTable], mainElement);
-    createSpecialCharacterButtons(specialCharacters, mainElement);
+    createInputTable();
+    createSpecialCharacterButtons();
 
     if (useHintsElement.checked)
     {
@@ -176,30 +162,24 @@ orderSelectElement.addEventListener("input", () => {
 });
 
 useMacronsElement.addEventListener("input", () => {
-    if (currentTable)
+    for (let row = 1; row < currentTable.length; row++)
     {
-        for (let row = 1; row < tables[currentTable].length; row++)
+        for (let column = 1; column < currentTable[0].length; column++)
         {
-            for (let column = 1; column < tables[currentTable][0].length; column++)
-            {
-                document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
-            }
+            document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
         }
-        useHintsElement.dispatchEvent(inputEvent);
     }
+    useHintsElement.dispatchEvent(inputEvent);
 });
 
 useHintsElement.addEventListener("input", () => {
-    if (currentTable)
+    for (let row = 1; row < currentTable.length; row++)
     {
-        for (let row = 1; row < tables[currentTable].length; row++)
+        for (let column = 1; column < currentTable[0].length; column++)
         {
-            for (let column = 1; column < tables[currentTable][0].length; column++)
-            {
-                const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
-                const placeholder = (useHintsElement.checked)? ((useMacronsElement.checked)? tables[currentTable][row][column]:removeMacrons(tables[currentTable][row][column])):"";
-                currentInputElement.placeholder = placeholder;
-            }
+            const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
+            const currentAnswer = currentTable[row][column];
+            currentInputElement.placeholder = (useHintsElement.checked)? ((useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer)):"";
         }
     }
 });
@@ -222,12 +202,12 @@ document.addEventListener("keydown", (event) => {
             }
             else
             {
-                nextFocus = document.querySelector(`[data-row="${tables[currentTable].length - 1}"][data-column="${column}"]`);
+                nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${column}"]`);
             }
         }
         else if (event.key == "ArrowDown")
         {
-            if (row < tables[currentTable].length - 1)
+            if (row < currentTable.length - 1)
             {
                 nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
             }
@@ -244,12 +224,12 @@ document.addEventListener("keydown", (event) => {
             }
             else
             {
-                nextFocus = document.querySelector(`[data-row="${row}"][data-column="${tables[currentTable][0].length - 1}"]`);
+                nextFocus = document.querySelector(`[data-row="${row}"][data-column="${currentTable[0].length - 1}"]`);
             }
         }
         else if (event.key == "ArrowRight" && caretPosition == activeElement.value.length)
         {
-            if (column < tables[currentTable][0].length - 1)
+            if (column < currentTable[0].length - 1)
             {
                 nextFocus = document.querySelector(`[data-row="${row}"][data-column="${column + 1}"]`);
             }
@@ -262,13 +242,13 @@ document.addEventListener("keydown", (event) => {
         {
             if (order == "row")
             {
-                if (column < tables[currentTable][0].length - 1)
+                if (column < currentTable[0].length - 1)
                 {
                     nextFocus = document.querySelector(`[data-row="${row}"][data-column="${column + 1}"]`);
                 }
                 else
                 {
-                    if (row < tables[currentTable].length - 1)
+                    if (row < currentTable.length - 1)
                     {
                         nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="1"]`);
                     }
@@ -280,13 +260,13 @@ document.addEventListener("keydown", (event) => {
             }
             else if (order == "column")
             {
-                if (row < tables[currentTable].length - 1)
+                if (row < currentTable.length - 1)
                 {
                     nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
                 }
                 else
                 {
-                    if (column < tables[currentTable][0].length - 1)
+                    if (column < currentTable[0].length - 1)
                     {
                         nextFocus = document.querySelector(`[data-row="1"][data-column="${column + 1}"]`);
                     }
@@ -311,11 +291,11 @@ document.addEventListener("keydown", (event) => {
                 {
                     if (row > 1)
                     {
-                        nextFocus = document.querySelector(`[data-row="${row - 1}"][data-column="${tables[currentTable][0].length - 1}"]`);
+                        nextFocus = document.querySelector(`[data-row="${row - 1}"][data-column="${currentTable[0].length - 1}"]`);
                     }
                     else
                     {
-                        nextFocus = document.querySelector(`[data-row="${tables[currentTable].length - 1}"][data-column="${tables[currentTable][0].length - 1}"]`);
+                        nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${currentTable[0].length - 1}"]`);
                     }
                 }
             }
@@ -329,11 +309,11 @@ document.addEventListener("keydown", (event) => {
                 {
                     if (column > 1)
                     {
-                        nextFocus = document.querySelector(`[data-row="${tables[currentTable].length - 1}"][data-column="${column - 1}"]`);
+                        nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${column - 1}"]`);
                     }
                     else
                     {
-                        nextFocus = document.querySelector(`[data-row="${tables[currentTable].length - 1}"][data-column="${tables[currentTable][0].length - 1}"]`);
+                        nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${currentTable[0].length - 1}"]`);
                     }
                 }
             }
@@ -342,13 +322,13 @@ document.addEventListener("keydown", (event) => {
         {
             if (order == "column")
             {
-                if (row < tables[currentTable].length - 1)
+                if (row < currentTable.length - 1)
                 {
                     nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
                 }
                 else
                 {
-                    if (column < tables[currentTable][0].length - 1)
+                    if (column < currentTable[0].length - 1)
                     {
                         nextFocus = document.querySelector(`[data-row="1"][data-column="${column + 1}"]`);
                     }
@@ -369,4 +349,4 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-addTableSelectOptions(tables);
+addTableSelectOptions();
