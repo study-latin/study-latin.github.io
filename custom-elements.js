@@ -91,7 +91,17 @@ class CustomMenu extends HTMLElement
         }
         this._initialized = true;
 
-        this.innerHTML = "<custom-menu-icon></custom-menu-icon>\n" + this.innerHTML;
+        if (!this.innerHTML)
+        {
+            this.innerHTML = `<custom-menu-icon></custom-menu-icon>
+            <div id="menu-content">
+                <a href="/" class="menu-item">Home</a>
+                <a href="/flashcards" class="menu-item">Flashcards</a>
+                <a href="/tables" class="menu-item">Tables</a>
+                <a href="/dates" class="menu-item">Dates</a>
+                <a href="/paradigms" class="menu-item">Paradigms</a>
+            </div>`;
+        }
 
         if (!this.hasAttribute("role"))
         {
