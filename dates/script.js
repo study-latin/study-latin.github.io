@@ -5,7 +5,7 @@ const fromLatinElement = document.getElementById("from-latin");
 const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
 const promptElement = document.getElementById("prompt");
-const dateInputElement = document.getElementById("date-input");
+const inputElement = document.getElementById("input");
 
 let currentAnswer = "";
 
@@ -85,7 +85,7 @@ function newPrompt()
 
     if (useHintsElement.checked)
     {
-        dateInputElement.placeholder = (useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer);
+        inputElement.placeholder = (useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer);
     }
 }
 
@@ -131,46 +131,46 @@ fromLatinElement.addEventListener("input", () => {
 useMacronsElement.addEventListener("input", () => {
     if (useHintsElement.checked)
     {
-        dateInputElement.placeholder = (useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer);
+        inputElement.placeholder = (useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer);
     }
 });
 
 useHintsElement.addEventListener("input", () => {
     if (useHintsElement.checked)
     {
-        dateInputElement.placeholder = (useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer);
+        inputElement.placeholder = (useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer);
     }
     else
     {
-        dateInputElement.placeholder = "";
+        inputElement.placeholder = "";
     }
 });
 
-dateInputElement.addEventListener("keydown", (event) => {
+inputElement.addEventListener("keydown", (event) => {
     if (event.key == "Enter")
     {
-        const simplifiedInputValue = dateInputElement.value.replaceAll(" ", "").replaceAll(".", "").toLowerCase();
+        const simplifiedInputValue = inputElement.value.replaceAll(" ", "").replaceAll(".", "").toLowerCase();
         const simplifiedCurrentAnswer = currentAnswer.replaceAll(" ", "").replaceAll(".", "").toLowerCase();
         
         if ((simplifiedInputValue == simplifiedCurrentAnswer) ||
             (!useMacronsElement.checked && removeMacrons(simplifiedInputValue) == removeMacrons(simplifiedCurrentAnswer)))
         {
-            dateInputElement.value = "";
+            inputElement.value = "";
             
-            dateInputElement.classList.add("good");
-            dateInputElement.classList.remove("bad");
+            inputElement.classList.add("good");
+            inputElement.classList.remove("bad");
             setTimeout(() => {
-                dateInputElement.classList.remove("good");
+                inputElement.classList.remove("good");
             }, 200);
 
             newPrompt();
         }
         else
         {
-            dateInputElement.classList.add("bad");
-            dateInputElement.classList.remove("good");
+            inputElement.classList.add("bad");
+            inputElement.classList.remove("good");
             setTimeout(() => {
-                dateInputElement.classList.remove("bad");
+                inputElement.classList.remove("bad");
             }, 200);
         }
     }

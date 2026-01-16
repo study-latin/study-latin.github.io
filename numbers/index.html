@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../style.css">
+        <title>Numbers | Study Latin</title>
+    </head>
+    <body>
+        <header>
+            <custom-menu></custom-menu>
+            <a href="../" id="title">Study Latin</a>
+        </header>
+        <main>
+            <div id="numbers-inputs-container">
+                <div>
+                    <p>Language</p>
+                    <br>
+                    <label>English &rightarrow; Latin<custom-toggle id="english-to-latin" checked></custom-toggle></label>
+                    <label>Latin &rightarrow; English<custom-toggle id="latin-to-english" checked></custom-toggle></label>
+                    <label>Latin &rightarrow; Latin<custom-toggle id="latin-to-latin" checked></custom-toggle></label>
+                </div>
+                <div>
+                    <p>Prompts</p>
+                    <br>
+                    <label>Cardinal (word)<custom-toggle id="prompt-cardinal" checked></custom-toggle></label>
+                    <label>Ordinal (word)<custom-toggle id="prompt-ordinal" checked></custom-toggle></label>
+                    <label>Number<custom-toggle id="prompt-number" checked></custom-toggle></label>
+                </div>
+                <div>
+                    <p>Answers</p>
+                    <br>
+                    <label>Cardinal (word)<custom-toggle id="answer-cardinal" checked></custom-toggle></label>
+                    <label>Ordinal (word)<custom-toggle id="answer-ordinal" checked></custom-toggle></label>
+                    <label>Number<custom-toggle id="answer-number" checked></custom-toggle></label>
+                </div>
+                <div>
+                    <p>Settings</p>
+                    <br>
+                    <label>Use macrons<custom-toggle id="use-macrons"></custom-toggle></label>
+                    <label>Use hints<custom-toggle id="use-hints"></custom-toggle></label>
+                    <label>Use optional forms<custom-toggle id="use-optional"></custom-toggle></label>
+                </div>
+            </div>
+            <p id="prompt"></p>
+            <input id="input" type="text">
+            <!-- add skipping? -->
+        </main>
+        <footer>
+            <p>Suggestions/bug reports <a href="mailto:studylatin1@gmail.com">here</a></p>
+        </footer>
+        <script src="../custom-elements.js"></script>
+        <script src="../numbers/numbers.js"></script>
+        <script src="../numbers/script.js"></script>
+    </body>
+</html>

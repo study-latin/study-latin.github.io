@@ -20,6 +20,8 @@
     --menu-icon-height:1.2rem;
     --menu-icon-line-height:0.2rem;
     --menu-icon-size-increase:0.15rem;
+    --flashcard-max-width:50rem;
+    --flashcard-max-height:30rem;
     --infinity:9999px;
     color:var(--text-light);
     font-family:"Inter";
@@ -121,7 +123,7 @@ custom-menu[open] > custom-menu-icon > span:nth-child(3)
     transform:rotate(225deg);
 }
 
-custom-menu > div
+custom-menu > nav
 {
     padding-top:calc(var(--header-padding) * 2 + var(--menu-icon-height) * 2);
     position:fixed;
@@ -136,13 +138,13 @@ custom-menu > div
     isolation:isolate;
 }
 
-custom-menu[open] > div
+custom-menu[open] > nav
 {
     box-shadow:0 0 1rem 0.8rem var(--shadow);
     transform:translateX(0);
 }
 
-custom-menu > div > a
+custom-menu > nav > a
 {
     display:block;
     box-sizing:border-box;
@@ -154,7 +156,7 @@ custom-menu > div > a
     transition-duration:0.1s;
 }
 
-custom-menu[open] > div > a:hover
+custom-menu[open] > nav > a:hover
 {
     background-color:var(--highlight);
     color:var(--text-dark);
@@ -186,7 +188,7 @@ main
     flex-direction:column;
     flex-grow:1;
     padding:2rem;
-    padding-bottom:1rem;
+    /* padding-bottom:1rem; */
 }
 
 select
@@ -280,17 +282,30 @@ custom-toggle[checked]::after
     margin-top:1rem;
 }
 
+#flashcard-container
+{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:2rem;
+}
+
 #flashcard
 {
     display:none;
     align-items:center;
     justify-content:center;
-    margin-top:2rem;
     padding:2rem;
-    min-height:20rem;
+    box-sizing:border-box;
+    width:100%;
+    height:100%;
+    max-width:var(--flashcard-max-width);
+    max-height:var(--flashcard-max-height);
+    aspect-ratio:calc(var(--flashcard-max-width)/var(--flashcard-max-height));
     border-radius:2rem;
     outline:var(--outline-width) solid var(--neutral);
     background-color:var(--background-2);
+    font-size:1.5rem;
     box-shadow:0 1rem 1rem 0 var(--shadow);
     transition-duration:0.15s;
     cursor:pointer;
@@ -322,11 +337,6 @@ custom-toggle[checked]::after
 p
 {
     margin:0;
-}
-
-#flashcard-text
-{
-    font-size:1.5rem;
 }
 
 table
@@ -471,11 +481,27 @@ button:active
     font-size:1.5rem;
 }
 
-#date-input
+#input
 {
     align-self:center;
     width:100%;
     text-align:center;
+}
+
+#numbers-inputs-container
+{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    align-self:center;
+    width:100%;
+    max-width:60rem;
+}
+
+#numbers-inputs-container > div
+{
+    display:flex;
+    flex-direction:column;
 }
 
 footer

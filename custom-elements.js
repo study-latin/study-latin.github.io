@@ -94,13 +94,14 @@ class CustomMenu extends HTMLElement
         if (!this.innerHTML)
         {
             this.innerHTML = `<custom-menu-icon></custom-menu-icon>
-            <div id="menu-content">
+            <nav id="menu-content">
                 <a href="/" class="menu-item">Home</a>
                 <a href="/flashcards" class="menu-item">Flashcards</a>
                 <a href="/tables" class="menu-item">Tables</a>
                 <a href="/dates" class="menu-item">Dates</a>
                 <a href="/paradigms" class="menu-item">Paradigms</a>
-            </div>`;
+                <a href="/numbers" class="menu-item">Numbers</a>
+            </nav>`;
         }
 
         if (!this.hasAttribute("role"))
@@ -185,23 +186,6 @@ class CustomMenuIcon extends HTMLElement
         });
     }
 }
-
-// const menuElement = document.getElementById("menu");
-// const menuIconElement = document.getElementById("menu-icon");
-// let menuOpen = false;
-
-// document.addEventListener("click", (event) => {
-//     const target = event.target;
-
-//     if (target == menuIconElement || menuIconElement.contains(target))
-//     {
-//         menuElement.toggleAttribute("open");
-//     }
-//     else if (!(target == menuElement || menuElement.contains(target)))
-//     {
-//         menuElement.removeAttribute("open");
-//     }
-// });
 
 customElements.define("custom-toggle", CustomToggle);
 customElements.define("custom-menu", CustomMenu);

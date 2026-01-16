@@ -1,6 +1,5 @@
 const setSelectElement = document.getElementById("set-select");
 const flashcardElement = document.getElementById("flashcard");
-const flashcardTextElement = document.getElementById("flashcard-text");
 const flashcardButtonsElement = document.getElementById("flashcard-buttons");
 const knownElement = document.getElementById("known");
 const unknownElement = document.getElementById("unknown");
@@ -28,7 +27,7 @@ function flipFlashcard(textContent)
     flashcardElement.style.transform = "scaleY(0)";
     setTimeout(() => {
         flashcardElement.style.transform = "scaleY(1)";
-        flashcardTextElement.textContent = textContent;
+        flashcardElement.textContent = textContent;
     }, 200);
 }
 
@@ -37,7 +36,7 @@ function switchFlashcard(textContent)
     flashcardElement.style.opacity = "0";
     setTimeout(() => {
         flashcardElement.style.opacity = "1";
-        flashcardTextElement.textContent = textContent;
+        flashcardElement.textContent = textContent;
     }, 200);
 }
 
@@ -66,7 +65,7 @@ setSelectElement.addEventListener("input", () => {
 
     flashcardElement.style.display = "flex";
     flashcardButtonsElement.style.display = "flex";
-    flashcardTextElement.textContent = unknownCards[currentCardIndex][currentCardSide];
+    flashcardElement.textContent = unknownCards[currentCardIndex][currentCardSide];
 });
 
 flashcardElement.addEventListener("click", () => {

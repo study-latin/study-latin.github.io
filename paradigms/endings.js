@@ -1,7 +1,8 @@
-const endings = {
+const verbEndings = {
     "active":{
         "present":{
             "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["ō"       , "eō"      , "ō"       , "iō"      , "iō"      ],
                 ["ās"      , "ēs"      , "is"      , "is"      , "īs"      ],
@@ -13,6 +14,7 @@ const endings = {
         },
         "imperfect":{
             "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["ābam"    , "ēbam"    , "ēbam"    , "iēbam"   , "iēbam"   ],
                 ["ābās"    , "ēbās"    , "ēbās"    , "iēbās"   , "iēbās"   ],
@@ -24,6 +26,7 @@ const endings = {
         },
         "future":{
             "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["ābō"     , "ēbō"     , "am"      , "iam"     , "iam"     ],
                 ["ābis"    , "ēbis"    , "ēs"      , "iēs"     , "iēs"     ],
@@ -35,6 +38,7 @@ const endings = {
         },
         "perfect":{
             "stem":3,
+            "requiresAgreement":false,
             "endings":[
                 ["ī"       , "ī"       , "ī"       , "ī"       , "ī"       ],
                 ["istī"    , "istī"    , "istī"    , "istī"    , "istī"    ],
@@ -46,6 +50,7 @@ const endings = {
         },
         "pluperfect":{
             "stem":3,
+            "requiresAgreement":false,
             "endings":[
                 ["eram"    , "eram"    , "eram"    , "eram"    , "eram"    ],
                 ["erās"    , "erās"    , "erās"    , "erās"    , "erās"    ],
@@ -57,6 +62,7 @@ const endings = {
         },
         "future perfect":{
             "stem":3,
+            "requiresAgreement":false,
             "endings":[
                 ["erō"     , "erō"     , "erō"     , "erō"     , "erō"     ],
                 ["eris"    , "eris"    , "eris"    , "eris"    , "eris"    ],
@@ -68,6 +74,7 @@ const endings = {
         },
         "imperative":{
             "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["ā"       , "ē"       , "e"       , "e"       , "ī"       ],
                 ["āte"     , "ēte"     , "ite"     , "ite"     , "īte"     ]
@@ -77,6 +84,7 @@ const endings = {
     "passive":{
         "present":{
             "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["or"      , "eor"     , "or"      , "ior"     , "ior"     ],
                 ["āris"    , "ēris"    , "eris"    , "eris"    , "īris"    ],
@@ -88,6 +96,19 @@ const endings = {
         },
         "imperfect":{
             "stem":2,
+            "requiresAgreement":false,
+            "endings":[
+                ["ābar"    , "ēbar"    , "ēbar"    , "iēbar"   , "iēbar"   ],
+                ["ābāris"  , "ēbāris"  , "ēbāris"  , "iēbāris" , "iēbāris" ],
+                ["ābātur"  , "ēbātur"  , "ēbātur"  , "iēbātur" , "iēbātur" ],
+                ["ābāmur"  , "ēbāmur"  , "ēbāmur"  , "iēbāmur" , "iēbāmur" ],
+                ["ābāminī" , "ēbāminī" , "ēbāminī" , "iēbāminī", "iēbāminī"],
+                ["ābantur" , "ēbantur" , "ēbantur" , "iēbantur", "iēbantur"]
+            ]
+        },
+        "future":{
+            "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["ābor"    , "ēbor"    , "ar"      , "iar"     , "iar"     ],
                 ["āberis"  , "ēberis"  , "ēris"    , "iēris"   , "iēris"   ],
@@ -99,6 +120,7 @@ const endings = {
         },
         "perfect":{
             "stem":4,
+            "requiresAgreement":true,
             "endings":[
                 [" sum"    , " sum"    , " sum"    , " sum"    , " sum"    ],
                 [" es"     , " es"     , " es"     , " es"     , " es"     ],
@@ -110,6 +132,7 @@ const endings = {
         },
         "pluperfect":{
             "stem":4,
+            "requiresAgreement":true,
             "endings":[
                 [" eram"   , " eram"   , " eram"   , " eram"   , " eram"   ],
                 [" erās"   , " erās"   , " erās"   , " erās"   , " erās"   ],
@@ -121,6 +144,7 @@ const endings = {
         },
         "future perfect":{
             "stem":4,
+            "requiresAgreement":true,
             "endings":[
                 [" erō"    , " erō"    , " erō"    , " erō"    , " erō"    ],
                 [" eris"   , " eris"   , " eris"   , " eris"   , " eris"   ],
@@ -131,7 +155,8 @@ const endings = {
             ]
         },
         "imperative":{
-            "stem":4,
+            "stem":2,
+            "requiresAgreement":false,
             "endings":[
                 ["āre"     , "ēre"     , "ere"     , "ere"     , "īre"     ],
                 ["āminī"   , "ēminī"   , "iminī"   , "iminī"   , "īminī"   ]
@@ -139,3 +164,15 @@ const endings = {
         }
     }
 };
+const pppEndings = [
+    ["us"  , "a"   , "um"  ],
+    ["ī"   , "ae"  , "ī"   ],
+    ["ō"   , "ae"  , "ō"   ],
+    ["um"  , "am"  , "um"  ],
+    ["ō"   , "ā"   , "ō"   ],
+    ["ī"   , "ae"  , "a"   ],
+    ["ōrum", "ārum", "ōrum"],
+    ["īs"  , "īs"  , "īs"  ],
+    ["ōs"  , "ās"  , "a"   ],
+    ["īs"  , "īs"  , "īs"  ]
+];
