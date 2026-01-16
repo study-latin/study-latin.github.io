@@ -27,6 +27,11 @@ function randomChoice(arr)
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function title(text)
+{
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 function toRomanNumerals(number)
 {
     const romanNumerals = {
@@ -100,15 +105,15 @@ function generatePrompt()
     const promptType = randomChoice(promptTypeChoices);
 
     const answerTypeChoices = [];
-    if (answerCardinalElement.checked)
+    if (answerCardinalElement.checked && !(promptType == "cardinal" && promptLanguage == answerLanguage))
     {
         answerTypeChoices.push("cardinal");
     }
-    if (answerOrdinalElement.checked)
+    if (answerOrdinalElement.checked && !(promptType == "ordinal" && promptLanguage == answerLanguage))
     {
         answerTypeChoices.push("ordinal");
     }
-    if (answerNumberElement.checked)
+    if (answerNumberElement.checked && !(promptType == "number" && promptLanguage == answerLanguage))
     {
         answerTypeChoices.push("number");
     }
@@ -126,7 +131,16 @@ function generatePrompt()
         const promptData = numberData[promptType][promptLanguage];
         promptElement.textContent = (promptLanguage == "english")? promptData:promptData["required"] + promptData["optional"];
     }
-    promptElement.innerHTML += ` &rightarrow; ${answerType} in ${answerLanguage}`;
+    promptElement.innerHTML += ` &rightarrow; `;
+    if (answerType == "number")
+    {
+        promptElement.textContent += ((answerLanguage == "english")? "Arabic":"Roman") + " numerals";
+    }
+    else
+    {
+        promptElement.textContent += answerType;
+    }
+    promptElement.textContent += " in " + title(answerLanguage);
 
     if (answerType == "number")
     {
@@ -196,6 +210,10 @@ useHintsElement.addEventListener("input", () => {
     if (useHintsElement.checked)
     {
         inputElement.placeholder = getCurrentStringAnswer();
+    }
+    else
+    {
+        inputElement.placeholder = "";
     }
 });
 useOptionalElement.addEventListener("input", () => {
