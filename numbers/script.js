@@ -15,6 +15,13 @@ const useOptionalElement = document.getElementById("use-optional");
 const promptElement = document.getElementById("prompt");
 const inputElement = document.getElementById("input");
 
+let currentNumberIndex = 0;
+let currentNumberData = {};
+let currentPromptLanguage = "";
+let currentAnswerLanguage = "";
+let currentPromptType = "";
+let currentAnswerType = "";
+let currentPrompt = "";
 let currentAnswer = "";
 
 function removeMacrons(text)
@@ -63,6 +70,32 @@ function toRomanNumerals(number)
     return ret;
 }
 
+function getCurrentStringAnswer()
+{
+    let ret = "";
+    if (currentAnswerType == "number")
+    {
+        ret += (currentAnswerLanguage == "english")? currentNumberIndex + 1:toRomanNumerals(currentNumberIndex + 1);
+    }
+    else if (currentAnswerLanguage == "latin")
+    {
+        ret += currentAnswer["required"];
+        if (useOptionalElement.checked)
+        {
+            ret += currentAnswer["optional"];
+        }
+    }
+    else
+    {
+        ret += currentAnswer;
+    }
+    if (!useMacronsElement.checked)
+    {
+        ret = removeMacrons(ret);
+    }
+    return ret;
+}
+
 function generatePrompt()
 {
     if (
@@ -87,7 +120,7 @@ function generatePrompt()
     {
         languageChoices.push(["latin", "latin"]);
     }
-    const [promptLanguage, answerLanguage] = randomChoice(languageChoices);
+    [currentPromptLanguage, currentAnswerLanguage] = randomChoice(languageChoices);
 
     const promptTypeChoices = [];
     if (promptCardinalElement.checked)
@@ -102,72 +135,101 @@ function generatePrompt()
     {
         promptTypeChoices.push("number");
     }
-    const promptType = randomChoice(promptTypeChoices);
+    currentPromptType = randomChoice(promptTypeChoices);
 
     const answerTypeChoices = [];
-    if (answerCardinalElement.checked && !(promptType == "cardinal" && promptLanguage == answerLanguage))
+    if (answerCardinalElement.checked && !(currentPromptType == "cardinal" && currentPromptLanguage == currentAnswerLanguage))
     {
         answerTypeChoices.push("cardinal");
     }
-    if (answerOrdinalElement.checked && !(promptType == "ordinal" && promptLanguage == answerLanguage))
+    if (answerOrdinalElement.checked && !(currentPromptType == "ordinal" && currentPromptLanguage == currentAnswerLanguage))
     {
         answerTypeChoices.push("ordinal");
     }
-    if (answerNumberElement.checked && !(promptType == "number" && promptLanguage == answerLanguage))
+    if (answerNumberElement.checked && !(currentPromptType == "number" && currentPromptLanguage == currentAnswerLanguage))
     {
         answerTypeChoices.push("number");
     }
-    const answerType = randomChoice(answerTypeChoices);
+    currentAnswerType = randomChoice(answerTypeChoices);
 
-    const numberIndex = Math.floor(Math.random() * numbers.length);
-    const numberData = numbers[numberIndex];
+    currentNumberIndex = Math.floor(Math.random() * numbers.length);
+    currentNumberData = numbers[currentNumberIndex];
 
-    if (promptType == "number")
+    if (currentPromptType == "number")
     {
-        promptElement.textContent = (promptLanguage == "english")? numberIndex + 1:toRomanNumerals(numberIndex + 1);
+        currentPrompt = (currentPromptLanguage == "english")? currentNumberIndex + 1:toRomanNumerals(currentNumberIndex + 1);
     }
     else
     {
-        const promptData = numberData[promptType][promptLanguage];
-        promptElement.textContent = (promptLanguage == "english")? promptData:promptData["required"] + promptData["optional"];
+        currentPrompt = currentNumberData[currentPromptType][currentPromptLanguage];
+        // currentPrompt = (promptLanguage == "english")? promptData:promptData["required"] + promptData["optional"];
     }
-    promptElement.innerHTML += ` &rightarrow; `;
-    if (answerType == "number")
-    {
-        promptElement.textContent += ((answerLanguage == "english")? "Arabic":"Roman") + " numerals";
-    }
-    else
-    {
-        promptElement.textContent += answerType;
-    }
-    promptElement.textContent += " in " + title(answerLanguage);
+    // currentPrompt += ` &rightarrow; `;
+    // if (answerType == "number")
+    // {
+    //     currentPrompt += ((answerLanguage == "english")? "Arabic":"Roman") + " numerals";
+    // }
+    // else
+    // {
+    //     currentPrompt += answerType;
+    // }
+    // currentPrompt += " in " + title(answerLanguage);
 
-    if (answerType == "number")
+    if (currentAnswerType == "number")
     {
-        currentAnswer = (answerLanguage == "english")? numberIndex + 1:toRomanNumerals(numberIndex + 1);
+        currentAnswer = (currentAnswerLanguage == "english")? currentNumberIndex + 1:toRomanNumerals(currentNumberIndex + 1);
     }
     else
     {
-        currentAnswer = numberData[answerType][answerLanguage];
+        currentAnswer = currentNumberData[currentAnswerType][currentAnswerLanguage];
     }
+
+    setPromptText();
+    setHintText();
 }
 
-function getCurrentStringAnswer()
+function setPromptText()
 {
-    let ret = "";
-    if (typeof currentAnswer == "object")
+    let prompt = "";
+    if (currentPromptType == "number")
     {
-        ret = (useOptionalElement.checked)? currentAnswer["required"] + currentAnswer["optional"]:currentAnswer["required"];
+        prompt += (currentPromptLanguage == "english")? currentNumberIndex + 1:toRomanNumerals(currentNumberIndex + 1);
     }
     else
     {
-        ret = currentAnswer;
+        if (currentPromptLanguage == "latin")
+        {
+            prompt += currentPrompt["required"];
+            if (useOptionalElement.checked)
+            {
+                prompt += currentPrompt["optional"];
+            }
+        }
+        else
+        {
+            prompt += currentPrompt;
+        }
+    }
+    prompt += " &rightarrow; ";
+    if (currentAnswerType == "number")
+    {
+        prompt += ((currentAnswerLanguage == "english")? "Arabic":"Roman") + " numerals";
+    }
+    else
+    {
+        prompt += currentAnswerType;
+        prompt += " in " + title(currentAnswerLanguage);
     }
     if (!useMacronsElement.checked)
     {
-        ret = removeMacrons(ret);
+        prompt = removeMacrons(prompt);
     }
-    return ret;
+    promptElement.innerHTML = prompt;
+}
+
+function setHintText()
+{
+    inputElement.placeholder = (useHintsElement.checked)? getCurrentStringAnswer():"";
 }
 
 englishToLatinElement.addEventListener("input", () => {
@@ -201,26 +263,15 @@ answerNumberElement.addEventListener("input", () => {
 });
 
 useMacronsElement.addEventListener("input", () => {
-    if (useHintsElement.checked)
-    {
-        inputElement.placeholder = getCurrentStringAnswer();
-    }
+    setPromptText();
+    setHintText();
 });
 useHintsElement.addEventListener("input", () => {
-    if (useHintsElement.checked)
-    {
-        inputElement.placeholder = getCurrentStringAnswer();
-    }
-    else
-    {
-        inputElement.placeholder = "";
-    }
+    setHintText();
 });
 useOptionalElement.addEventListener("input", () => {
-    if (useHintsElement.checked)
-    {
-        inputElement.placeholder = getCurrentStringAnswer();
-    }
+    setPromptText();
+    setHintText();
 });
 
 inputElement.addEventListener("keydown", (event) => {
@@ -239,9 +290,8 @@ inputElement.addEventListener("keydown", (event) => {
     {
         value = removeMacrons(value);
     }
-
-    let currentStringAnswer = getCurrentStringAnswer();
-    if (value == currentStringAnswer)
+    
+    if (value == getCurrentStringAnswer())
     {
         inputElement.value = "";
             
@@ -252,6 +302,7 @@ inputElement.addEventListener("keydown", (event) => {
         }, 200);
 
         generatePrompt();
+
     }
     else
     {
