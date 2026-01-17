@@ -162,18 +162,7 @@ function generatePrompt()
     else
     {
         currentPrompt = currentNumberData[currentPromptType][currentPromptLanguage];
-        // currentPrompt = (promptLanguage == "english")? promptData:promptData["required"] + promptData["optional"];
     }
-    // currentPrompt += ` &rightarrow; `;
-    // if (answerType == "number")
-    // {
-    //     currentPrompt += ((answerLanguage == "english")? "Arabic":"Roman") + " numerals";
-    // }
-    // else
-    // {
-    //     currentPrompt += answerType;
-    // }
-    // currentPrompt += " in " + title(answerLanguage);
 
     if (currentAnswerType == "number")
     {
