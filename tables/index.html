@@ -19,11 +19,18 @@
                 <option value="row" selected>By row</option>
                 <option value="column">By column</option>
             </select>
-            <label>Use macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
-            <label>Use hints<custom-toggle id="use-hints"></custom-toggle></label>
+            <label>Macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
+            <label>Hints<custom-toggle id="use-hints"></custom-toggle></label>
+            <label>Keyboard navigation<custom-toggle id="use-keyboard-navigation" checked></custom-toggle></label>
             <div id="main-inputs-container">
-                <table id="input-table"></table>
-                <div id="special-character-buttons-container"></div>
+                <table id="table"></table>
+                <div id="macron-character-buttons-container">
+                    <button id="macron-a" class="macron-character-button">ā</button>
+                    <button id="macron-e" class="macron-character-button">ē</button>
+                    <button id="macron-i" class="macron-character-button">ī</button>
+                    <button id="macron-o" class="macron-character-button">ō</button>
+                    <button id="macron-u" class="macron-character-button">ū</button>
+                </div>
             </div>
         </main>
         <footer>

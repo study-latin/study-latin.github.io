@@ -268,13 +268,13 @@ custom-toggle[checked]::after
 
 #main-inputs-container
 {
-    display:flex;
+    display:none;
     flex-direction:column;
     align-self:center;
     margin-top:0.5rem;
 }
 
-#special-character-buttons-container
+#macron-character-buttons-container
 {
     display:flex;
     flex-direction:row;
@@ -398,7 +398,7 @@ button:active
     background-color:var(--highlight);
 }
 
-.special-character-button
+.macron-character-button
 {
     margin:0.8rem;
     width:3.25rem;
