@@ -202,11 +202,11 @@ class MacronCharacterButtons extends HTMLElement
         }
         this.initialized = true;
 
-        this.innerHTML = `<button id="macron-a" class="macron-character-button">ā</button>
-        <button id="macron-e" class="macron-character-button">ē</button>
-        <button id="macron-i" class="macron-character-button">ī</button>
-        <button id="macron-o" class="macron-character-button">ō</button>
-        <button id="macron-u" class="macron-character-button">ū</button>`
+        this.innerHTML = `<button id="macron-a">ā</button>
+        <button id="macron-e">ē</button>
+        <button id="macron-i">ī</button>
+        <button id="macron-o">ō</button>
+        <button id="macron-u">ū</button>`
 
         if (!this.hasAttribute("tabindex"))
         {

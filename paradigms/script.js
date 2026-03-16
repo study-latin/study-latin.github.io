@@ -89,9 +89,6 @@ function getVerbTable(verb, personNumber, gender=0)
     const type = getVerbType(verb);
     const conjugation = getVerbConjugation(verb);
 
-    console.log(type);
-    console.log(conjugation);
-
     if (type == "regular")
     {
         table["columns"] = ["active", "passive"];
@@ -323,8 +320,6 @@ function generateTable()
 
     promptElement.textContent = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${person + 1}${["st", "nd", "rd"][person]} ${(number == 0)? "s.":"p."}`;
 
-    console.log(currentTable)
-
     const tableHeadElement = document.createElement("thead");
 
     const headTableRowElement = document.createElement("tr");
@@ -356,6 +351,8 @@ function generateTable()
 
         for (let columnIndex = 0; columnIndex < currentTable["columns"].length; columnIndex++)
         {
+            const currentInputAnswer = currentTable["data"][rowIndex][columnIndex];
+
             const tableDataElement = document.createElement("td");
             tableRowElement.append(tableDataElement);
             
@@ -364,13 +361,18 @@ function generateTable()
 
             inputElement.type = "text";
             inputElement.name = "input";
+
+            if (!currentInputAnswer)
+            {
+                inputElement.disabled = true;
+                continue;
+            }
+
             inputElement.spellcheck = false;
             inputElement.autocomplete = "off";
             inputElement.className = "table-input";
             inputElement.dataset.row = rowIndex;
             inputElement.dataset.column = columnIndex;
-
-            const currentInputAnswer = currentTable["data"][rowIndex][columnIndex];
 
             inputElement.addEventListener("input", () => {
                 const inputValue = inputElement.value.trim().toLowerCase();
@@ -430,152 +432,169 @@ useHintsElement.addEventListener("input", () => {
 document.addEventListener("keydown", (event) => {
     const activeElement = document.activeElement;
 
-    if (!activeElement.classList.contains("table-input"))
+    if (!activeElement.classList.contains("table-input") || !useKeyboardNavigationElement.checked)
     {
         return;
     }
 
-    const currentRow = parseInt(activeElement.dataset.row);
-    const currentColumn = parseInt(activeElement.dataset.column);
+    let currentRow = parseInt(activeElement.dataset.row);
+    let currentColumn = parseInt(activeElement.dataset.column);
     
-    let nextRow = currentRow;
-    let nextColumn = currentColumn;
+    let movement = [0, 0];
+    let wrap = "stay";
     let nextCaretPosition = null;
 
     switch (event.key)
     {
         case "ArrowLeft":
-            if (!useKeyboardNavigationElement.checked)
-            {
-                break;
-            }
-
             if (activeElement.selectionStart == 0)
             {
-                nextColumn = (currentColumn == 0)? currentTable["columns"].length - 1:currentColumn - 1;
+                movement = [-1, 0];
                 nextCaretPosition = -1;
             }
 
             break;
         case "ArrowRight":
-            if (!useKeyboardNavigationElement.checked)
-            {
-                break;
-            }
-
             if (activeElement.selectionStart == activeElement.value.length)
             {
-                nextColumn = (currentColumn == currentTable["columns"].length - 1)? 0:currentColumn + 1;
+                movement = [1, 0];
                 nextCaretPosition = 0;
             }
 
             break;
         case "ArrowUp":
-            if (!useKeyboardNavigationElement.checked)
-            {
-                break;
-            }
-
             if (activeElement.selectionStart == 0)
             {
-                nextRow = (currentRow == 0)? currentTable["rows"].length - 1:currentRow - 1;
+                movement = [0, -1];
                 nextCaretPosition = -1;
             }
 
             break;
         case "ArrowDown":
-            if (!useKeyboardNavigationElement.checked)
-            {
-                break;
-            }
-
             if (activeElement.selectionStart == activeElement.value.length)
             {
-                nextRow = (currentRow == currentTable["rows"].length - 1)? 0:currentRow + 1;
+                movement = [0, 1];
                 nextCaretPosition = 0;
             }
 
             break;
         case "Enter":
-            if (!useKeyboardNavigationElement.checked)
-            {
-                break;
-            }
-
             if (orderSelectElement.value == "row")
             {
-                nextColumn = currentColumn + 1;
-                if (nextColumn == currentTable["columns"].length)
-                {
-                    nextRow = (currentRow == currentTable["rows"].length - 1)? 0:currentRow + 1;
-                    nextColumn = 0;
-                }
+                movement = [1, 0];
             }
             else
             {
-                nextRow = currentRow + 1;
-                if (nextRow == currentTable["rows"].length)
-                {
-                    nextRow = 0;
-                    nextColumn = (currentColumn == currentTable["columns"].length - 1)? 0:currentColumn + 1;
-                }
+                movement = [0, 1];
             }
+            wrap = "move";
 
             break;
         case "Backspace":
-            if (!useKeyboardNavigationElement.checked || activeElement.selectionStart != 0)
+            if (activeElement.selectionStart != 0)
             {
                 break;
             }
 
             if (orderSelectElement.value == "row")
             {
-                nextColumn = currentColumn - 1;
-                if (nextColumn == -1)
-                {
-                    nextRow = (currentRow == 1)? currentTable["rows"].length - 1:currentRow - 1;
-                    nextColumn = currentTable["columns"].length - 1;
-                }
+                movement = [-1, 0];
             }
             else
             {
-                nextRow = currentRow - 1;
-                if (nextRow == -1)
-                {
-                    nextRow = currentTable["rows"].length - 1;
-                    nextColumn = (currentColumn == 1)? currentTable["columns"].length - 1:currentColumn - 1;
-                }
+                movement = [0, -1];
             }
+            wrap = "move";
             nextCaretPosition = -1;
 
             break;
         case "Tab":
-            if (orderSelectElement.value == "row")
+            if (orderSelectElement.value == "column")
             {
-                break;
-            }
-
-            if (currentRow < currentTable["rows"].length - 1)
-            {
-                nextRow = currentRow + 1;
-            }
-            else if (currentColumn < currentTable["columns"].length - 1)
-            {
-                nextRow = 0;
-                nextColumn = currentColumn + 1;
+                movement = [0, 1];
+                wrap = "move";
             }
 
             break;
     }
 
-    if (nextRow == currentRow && nextColumn == currentColumn)
+    if (movement[0] == 0 && movement[1] == 0)
     {
         return;
     }
 
-    event.preventDefault();
+    let nextFocus;
+    while (!nextFocus)
+    {
+        currentRow += movement[1];
+        currentColumn += movement[0];
 
-    const nextFocus = document.querySelector(`[data-row="${nextRow}"][data-column="${nextColumn}"]`);
+        if (currentRow == -1)
+        {
+            switch (wrap)
+            {
+                case "none":
+                    return;
+                case "stay":
+                    currentRow = currentTable["rows"].length - 1;
+                    break;
+                case "move":
+                    currentRow = currentTable["rows"].length - 1;
+                    currentColumn = (currentColumn == 0)? currentTable["columns"].length - 1:currentColumn - 1;
+                    break;
+            }
+        }
+        else if (currentRow == currentTable["rows"].length)
+        {
+            switch (wrap)
+            {
+                case "none":
+                    return;
+                case "stay":
+                    currentRow = 0;
+                    break;
+                case "move":
+                    currentRow = 0;
+                    currentColumn = (currentColumn == currentTable["columns"].length - 1)? 0:currentColumn + 1;
+                    break;
+            }
+        }
+
+        if (currentColumn == -1)
+        {
+            switch (wrap)
+            {
+                case "none":
+                    return;
+                case "stay":
+                    currentColumn = currentTable["columns"].length - 1;
+                    break;
+                case "move":
+                    currentColumn = currentTable["columns"].length - 1;
+                    currentRow = (currentRow == 0)? currentTable["rows"].length - 1:currentRow - 1;
+                    break;
+            }
+        }
+        else if (currentColumn == currentTable["columns"].length)
+        {
+            switch (wrap)
+            {
+                case "none":
+                    return;
+                case "stay":
+                    currentColumn = 0;
+                    break;
+                case "move":
+                    currentColumn = 0;
+                    currentRow = (currentRow == currentTable["rows"].length - 1)? 0:currentRow + 1;
+                    break;
+            }
+        }
+
+        nextFocus = document.querySelector(`[data-row="${currentRow}"][data-column="${currentColumn}"]`);
+    }
+
+    event.preventDefault();
     nextFocus.focus();
 
     if (nextCaretPosition)

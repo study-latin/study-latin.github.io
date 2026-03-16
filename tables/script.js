@@ -3,7 +3,7 @@ const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
 const useKeyboardNavigationElement = document.getElementById("use-keyboard-navigation");
-const mainInputsElement = document.getElementById("main-inputs-container");
+const mainInputsElement = document.getElementById("main-inputs");
 const tableElement = document.getElementById("table");
 
 let currentTable = {};
