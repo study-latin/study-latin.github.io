@@ -5,7 +5,6 @@ const useHintsElement = document.getElementById("use-hints");
 const useKeyboardNavigationElement = document.getElementById("use-keyboard-navigation");
 const mainInputsElement = document.getElementById("main-inputs-container");
 const tableElement = document.getElementById("table");
-const macronCharacterButtonsElement = document.getElementById("macron-character-buttons-container");
 
 let currentTable = {};
 
@@ -309,30 +308,6 @@ document.addEventListener("keydown", (event) => {
     {
         activeElement.classList.add("bad");
     }
-});
-
-Array.from(document.getElementsByClassName("macron-character-button")).forEach((button) => {
-    const character = button.textContent;
-
-    button.addEventListener("mousedown", (event) => {
-        event.preventDefault();
-    });
-    button.addEventListener("click", () => {
-        const activeElement = document.activeElement;
-
-        if (activeElement.tagName == "INPUT")
-        {
-            const value = activeElement.value;
-            const start = activeElement.selectionStart;
-            const end = activeElement.selectionEnd;
-            const newCaretPosition = start + character.length;
-
-            activeElement.value = value.slice(0, start) + character + value.slice(end);
-            activeElement.selectionStart = newCaretPosition;
-            activeElement.selectionEnd = newCaretPosition;
-            activeElement.dispatchEvent(new Event("input"));
-        }
-    });
 });
 
 addTableSelectOptions();

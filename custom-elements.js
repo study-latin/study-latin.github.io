@@ -187,6 +187,59 @@ class CustomMenuIcon extends HTMLElement
     }
 }
 
+class MacronCharacterButtons extends HTMLElement
+{
+    constructor()
+    {
+        super();
+    }
+
+    connectedCallback()
+    {
+        if (this._initialized)
+        {
+            return;
+        }
+        this.initialized = true;
+
+        this.innerHTML = `<button id="macron-a" class="macron-character-button">ā</button>
+        <button id="macron-e" class="macron-character-button">ē</button>
+        <button id="macron-i" class="macron-character-button">ī</button>
+        <button id="macron-o" class="macron-character-button">ō</button>
+        <button id="macron-u" class="macron-character-button">ū</button>`
+
+        if (!this.hasAttribute("tabindex"))
+        {
+            this.tabIndex = 0;
+        }
+
+        Array.from(this.children).forEach((button) => {
+            const character = button.textContent;
+
+            button.addEventListener("mousedown", (event) => {
+                event.preventDefault();
+            });
+            button.addEventListener("click", () => {
+                const activeElement = document.activeElement;
+
+                if (activeElement.tagName == "INPUT")
+                {
+                    const value = activeElement.value;
+                    const start = activeElement.selectionStart;
+                    const end = activeElement.selectionEnd;
+                    const newCaretPosition = start + character.length;
+
+                    activeElement.value = value.slice(0, start) + character + value.slice(end);
+                    activeElement.selectionStart = newCaretPosition;
+                    activeElement.selectionEnd = newCaretPosition;
+                    activeElement.dispatchEvent(new Event("input"));
+                }
+            });
+        });
+    }
+}
+
 customElements.define("custom-toggle", CustomToggle);
 customElements.define("custom-menu", CustomMenu);
 customElements.define("custom-menu-icon", CustomMenuIcon);
+customElements.define("macron-character-buttons", MacronCharacterButtons);

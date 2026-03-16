@@ -266,7 +266,7 @@ custom-toggle[checked]::after
     transform:translateX(calc(var(--toggle-width) - var(--toggle-height)));
 }
 
-#main-inputs-container
+#main-inputs
 {
     display:none;
     flex-direction:column;

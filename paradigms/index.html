@@ -12,15 +12,24 @@
             <a href="../" id="title">Study Latin</a>
         </header>
         <main>
-            <p id="prompt"></p>
-            <table id="table"></table>
-            <div id="special-character-buttons"></div>
-            working on this page...
+            <select id="order-select">
+                <option value="row" selected>By row</option>
+                <option value="column">By column</option>
+            </select>
+            <label>Macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
+            <label>Hints<custom-toggle id="use-hints"></custom-toggle></label>
+            <label>Keyboard navigation<custom-toggle id="use-keyboard-navigation" checked></custom-toggle></label>
+            <div id="main-inputs">
+                <p id="prompt"></p>
+                <table id="table"></table>
+                <macron-character-buttons></macron-character-buttons>
+            </div>
         </main>
         <footer>
             <p>Suggestions/bug reports <a href="mailto:studylatin1@gmail.com">here</a></p>
         </footer>
         <script src="../custom-elements.js"></script>
+        <script src="../paradigms/verbs.js"></script>
         <script src="../paradigms/endings.js"></script>
         <script src="../paradigms/script.js"></script>
     </body>

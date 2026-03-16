@@ -1,5 +1,12 @@
-const inputsTableElement = document.getElementById("inputs-table");
-let currentAnswers = [];
+const orderSelectElement = document.getElementById("order-select");
+const useMacronsElement = document.getElementById("use-macrons");
+const useHintsElement = document.getElementById("use-hints");
+const useKeyboardNavigationElement = document.getElementById("use-keyboard-navigation");
+const mainInputsElement = document.getElementById("main-inputs");
+const promptElement = document.getElementById("prompt");
+const tableElement = document.getElementById("table");
+
+let currentTable = {};
 
 function getVerbType(verb)
 {
@@ -42,28 +49,288 @@ function getVerbConjugation(verb)
     }
 }
 
-function generateTable()
+function format(text, replacements)
 {
-    const verb = verbs[Math.floor(Math.random * verbs.length)];
-    const verbType = getVerbType(verb);
-    const verbConjugation = getVerbConjugation(verb);
+    let formatted = text;
 
+    Object.keys(replacements).forEach((key) => {
+        formatted = formatted.replaceAll(`{${key}}`, replacements[key]);
+    });
 
+    return formatted;
 }
 
-function createInputTable()
+function formatWithVerb(text, verb, otherReplacements={})
 {
-    const tableElement = document.getElementById("table");
+    const type = getVerbType(verb);
+    const conjugation = getVerbConjugation(verb);
 
-    tableElement.innerHTML = "";
+    let replacements = {
+        ...otherReplacements,
+        "1":verb[1].slice(0, (type != "deponent" || (conjugation != 2 && conjugation != 3))? -3:-1),
+        "-1":verb.at(-1).slice(0, (type == "regular")? -2:-4)
+    };
+    if (verb.length == 4)
+    {
+        replacements["2"] = verb[2].slice(0, -1);
+    }
+
+    return format(text, replacements);
+}
+
+function getVerbTable(verb, personNumber, gender=0)
+{
+    let table = {
+        "rows":[],
+        "columns":[],
+        "data":[]
+    };
+
+    const type = getVerbType(verb);
+    const conjugation = getVerbConjugation(verb);
+
+    console.log(type);
+    console.log(conjugation);
+
+    if (type == "regular")
+    {
+        table["columns"] = ["active", "passive"];
+
+        Object.keys(verbEndings["regular"]).forEach((mood) => {
+            Object.keys(verbEndings["regular"][mood]).forEach((tense) => {
+                table["rows"].push(`${mood} ${tense}`);
+
+                const row = verbEndings["regular"][mood][tense];
+                let tableRow = [];
+
+                if (row.hasOwnProperty("active"))
+                {
+                    const cell = row["active"];
+
+                    let a = "";
+                    let e = "";
+                    let missing = false;
+
+                    if (cell.hasOwnProperty("adjectiveFormat"))
+                    {
+                        const adjective = cell["adjectiveFormat"][conjugation].map((termination) => formatWithVerb(termination, verb));
+                        a = adjective[(adjective.length == 2)? Math.max(0, gender - 1):gender];
+                    }
+                    if (cell.hasOwnProperty("endings"))
+                    {
+                        const endings = cell["endings"];
+                        if (Array.isArray(endings[0]))
+                        {
+                            if (endings[personNumber].length)
+                            {
+                                e = endings[personNumber][conjugation];
+                            }
+                            else
+                            {
+                                missing = true;
+                            }
+                        }
+                        else
+                        {
+                            e = endings[conjugation];
+                        }
+                    }
+
+                    if (missing)
+                    {
+                        tableRow.push("");
+                    }
+                    else
+                    {
+                        tableRow.push((cell.hasOwnProperty("format"))? formatWithVerb(cell["format"], verb, {"a":a, "e":e}):a);
+                    }
+                }
+                else
+                {
+                    tableRow.push("");
+                }
+
+                if (row.hasOwnProperty("passive"))
+                {
+                    const cell = row["passive"];
+
+                    let a = "";
+                    let e = "";
+                    let missing = false;
+
+                    if (cell.hasOwnProperty("adjectiveFormat"))
+                    {
+                        const adjective = cell["adjectiveFormat"][conjugation].map((termination) => formatWithVerb(termination, verb));
+                        a = adjective[(adjective.length == 2)? Math.max(0, gender - 1):gender];
+                    }
+                    if (cell.hasOwnProperty("endings"))
+                    {
+                        const endings = cell["endings"];
+                        if (Array.isArray(endings[0]))
+                        {
+                            if (endings[personNumber].length)
+                            {
+                                e = endings[personNumber][conjugation];
+                            }
+                            else
+                            {
+                                missing = true;
+                            }
+                        }
+                        else
+                        {
+                            e = endings[conjugation];
+                        }
+                    }
+
+                    if (missing)
+                    {
+                        tableRow.push("");
+                    }
+                    else
+                    {
+                        tableRow.push((cell.hasOwnProperty("format"))? formatWithVerb(cell["format"], verb, {"a":a, "e":e}):a);
+                    }
+                }
+                else
+                {
+                    tableRow.push("");
+                }
+
+                table["data"].push(tableRow);
+            });
+        });
+    }
+    else if (type == "deponent")
+    {
+        table["columns"] = ["active"];
+
+        Object.keys(verbEndings["deponent"]).forEach((mood) => {
+            Object.keys(verbEndings["deponent"][mood]).forEach((tense) => {
+                table["rows"].push(`${mood} ${tense}`);
+
+                const regularVoice = verbEndings["deponent"][mood][tense];
+                const cell = verbEndings["regular"][mood][tense][regularVoice];
+                let tableRow = [];
+
+                let a = "";
+                let e = "";
+                let missing = false;
+
+                if (cell.hasOwnProperty("adjectiveFormat"))
+                {
+                    const adjective = cell["adjectiveFormat"][conjugation].map((termination) => formatWithVerb(termination, verb));
+                    a = adjective[(adjective.length == 2)? Math.max(0, gender - 1):gender];
+                }
+                if (cell.hasOwnProperty("endings"))
+                {
+                    const endings = cell["endings"];
+                    if (Array.isArray(endings[0]))
+                    {
+                        if (endings[personNumber].length)
+                        {
+                            e = endings[personNumber][conjugation];
+                        }
+                        else
+                        {
+                            missing = true;
+                        }
+                    }
+                    else
+                    {
+                        e = endings[conjugation];
+                    }
+                }
+
+                if (missing)
+                {
+                    tableRow.push("");
+                }
+                else
+                {
+                    tableRow.push((cell.hasOwnProperty("format"))? formatWithVerb(cell["format"], verb, {"a":a, "e":e}):a);
+                }
+
+                table["data"].push(tableRow);
+            });
+        });
+    }
+    else if (type == "semiDeponent")
+    {
+        table["columns"] = ["active"];
+
+        Object.keys(verbEndings["semiDeponent"]["deponent"]).forEach((mood) => {
+            Object.keys(verbEndings[mood]).forEach((tense) => {
+                table["rows"].push(`${mood} ${tense}`);
+
+                const regularVoice = verbEndings["semiDeponent"][mood][tense];
+                const cell = verbEndings["regular"][mood][tense][regularVoice];
+                let tableRow = [];
+
+                let a = "";
+                let e = "";
+                let missing = false;
+
+                if (cell.hasOwnProperty("adjectiveFormat"))
+                {
+                    const adjective = cell["adjectiveFormat"][conjugation].map((termination) => formatWithVerb(termination, verb));
+                    a = adjective[(adjective.length == 2)? Math.max(0, gender - 1):gender];
+                }
+                if (cell.hasOwnProperty("endings"))
+                {
+                    const endings = cell["endings"];
+                    if (Array.isArray(endings[0]))
+                    {
+                        if (endings[personNumber].length)
+                        {
+                            e = endings[personNumber][conjugation];
+                        }
+                        else
+                        {
+                            missing = true;
+                        }
+                    }
+                    else
+                    {
+                        e = endings[conjugation];
+                    }
+                }
+
+                if (missing)
+                {
+                    tableRow.push("");
+                }
+                else
+                {
+                    tableRow.push((cell.hasOwnProperty("format"))? formatWithVerb(cell["format"], verb, {"a":a, "e":e}):a);
+                }
+
+                table["data"].push(tableRow);
+            });
+        });
+    }
+
+    return table;
+}
+
+function generateTable()
+{
+    const verb = verbs[Math.floor(Math.random() * verbs.length)];
+    const person = Math.floor(Math.random() * 3);
+    const number = Math.floor(Math.random() * 2);
+
+    currentTable = getVerbTable(verb, person + number * 3);
+
+    promptElement.textContent = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${person + 1}${["st", "nd", "rd"][person]} ${(number == 0)? "s.":"p."}`;
+
+    console.log(currentTable)
 
     const tableHeadElement = document.createElement("thead");
-    tableElement.append(tableHeadElement);
 
     const headTableRowElement = document.createElement("tr");
     tableHeadElement.append(headTableRowElement);
 
-    for (let columnLabel of currentTable[0])
+    for (let columnLabel of ["", ...currentTable["columns"]])
     {
         const tableHeaderElement = document.createElement("th");
         headTableRowElement.append(tableHeaderElement);
@@ -73,9 +340,10 @@ function createInputTable()
     }
 
     const tableBody = document.createElement("tbody");
-    tableElement.append(tableBody);
 
-    for (let rowIndex = 0; rowIndex < currentTable.length - 1; rowIndex++)
+    tableElement.replaceChildren(tableHeadElement, tableBody);
+
+    for (let rowIndex = 0; rowIndex < currentTable["rows"].length; rowIndex++)
     {
         const tableRowElement = document.createElement("tr");
         tableBody.append(tableRowElement);
@@ -84,9 +352,9 @@ function createInputTable()
         tableRowElement.append(tableHeaderElement);
 
         tableHeaderElement.scope = "row";
-        tableHeaderElement.textContent = currentTable[rowIndex + 1][0];
+        tableHeaderElement.textContent = currentTable["rows"][rowIndex];
 
-        for (let columnIndex = 0; columnIndex < currentTable[0].length - 1; columnIndex++)
+        for (let columnIndex = 0; columnIndex < currentTable["columns"].length; columnIndex++)
         {
             const tableDataElement = document.createElement("td");
             tableRowElement.append(tableDataElement);
@@ -97,14 +365,17 @@ function createInputTable()
             inputElement.type = "text";
             inputElement.name = "input";
             inputElement.spellcheck = false;
+            inputElement.autocomplete = "off";
             inputElement.className = "table-input";
-            inputElement.dataset.row = rowIndex + 1;
-            inputElement.dataset.column = columnIndex + 1;
+            inputElement.dataset.row = rowIndex;
+            inputElement.dataset.column = columnIndex;
+
+            const currentInputAnswer = currentTable["data"][rowIndex][columnIndex];
 
             inputElement.addEventListener("input", () => {
                 const inputValue = inputElement.value.trim().toLowerCase();
-                if ((useMacronsElement.checked && inputValue == currentTable[rowIndex + 1][columnIndex + 1]) ||
-                    (!useMacronsElement.checked && removeMacrons(inputValue) == removeMacrons(currentTable[rowIndex + 1][columnIndex + 1])))
+                if ((useMacronsElement.checked && inputValue == currentInputAnswer) ||
+                    (!useMacronsElement.checked && removeMacrons(inputValue) == removeMacrons(currentInputAnswer)))
                 {
                     inputElement.classList.add("good");
                     inputElement.classList.remove("bad");
@@ -124,91 +395,33 @@ function createInputTable()
     }
 }
 
-function createSpecialCharacterButtons()
-{
-    let specialCharacterButtonsContainer = document.getElementById("special-character-buttons");
-    
-    if (!specialCharacterButtonsContainer)
-    {
-        specialCharacterButtonsContainer = document.createElement("div");
-        mainElement.append(specialCharacterButtonsContainer);
-        
-        specialCharacterButtonsContainer.id = "special-character-buttons";
-    }
-    
-    if (specialCharacterButtonsContainer.children.length == 0)
-    {
-        for (let character of ["ā", "ē", "ī", "ō", "ū"])
-        {
-            const button = document.createElement("button");
-            specialCharacterButtonsContainer.append(button);
-
-            button.className = "special-character-button";
-            button.textContent = character;
-
-            button.addEventListener("mousedown", (event) => {
-                event.preventDefault();
-            });
-
-            button.addEventListener("click", () => {
-                const activeElement = document.activeElement;
-
-                if (activeElement.tagName == "INPUT")
-                {
-                    const value = activeElement.value;
-                    const start = activeElement.selectionStart;
-                    const end = activeElement.selectionEnd;
-                    const newCaretPosition = start + character.length;
-
-                    activeElement.value = value.slice(0, start) + character + value.slice(end);
-                    activeElement.selectionStart = newCaretPosition;
-                    activeElement.selectionEnd = newCaretPosition;
-                    activeElement.dispatchEvent(inputEvent);
-                }
-            });
-        }
-    }
-}
-
 function removeMacrons(text)
 {
     return text.replaceAll("ā", "a").replaceAll("ē", "e").replaceAll("ī", "i").replaceAll("ō", "o").replaceAll("ū", "u").replaceAll("Ā", "A").replaceAll("Ē", "E").replaceAll("Ī", "I").replaceAll("Ō", "O").replaceAll("Ū", "U");
 }
 
-tableSelectElement.addEventListener("input", () => {
-    currentTable = tables[tableSelectElement.value];
-
-    createInputTable();
-    createSpecialCharacterButtons();
+useMacronsElement.addEventListener("input", () => {
+    for (let row = 0; row < currentTable["rows"].length; row++)
+    {
+        for (let column = 0; column < currentTable["columns"].length; column++)
+        {
+            document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(new Event("input"));
+        }
+    }
 
     if (useHintsElement.checked)
     {
-        useHintsElement.dispatchEvent(inputEvent);
+        useHintsElement.dispatchEvent(new Event("input"));
     }
-});
-
-orderSelectElement.addEventListener("input", () => {
-    order = orderSelectElement.value;
-});
-
-useMacronsElement.addEventListener("input", () => {
-    for (let row = 1; row < currentTable.length; row++)
-    {
-        for (let column = 1; column < currentTable[0].length; column++)
-        {
-            document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(inputEvent);
-        }
-    }
-    useHintsElement.dispatchEvent(inputEvent);
 });
 
 useHintsElement.addEventListener("input", () => {
-    for (let row = 1; row < currentTable.length; row++)
+    for (let row = 0; row < currentTable["rows"].length; row++)
     {
-        for (let column = 1; column < currentTable[0].length; column++)
+        for (let column = 0; column < currentTable["columns"].length; column++)
         {
             const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
-            const currentAnswer = currentTable[row][column];
+            const currentAnswer = currentTable["data"][row][column];
             currentInputElement.placeholder = (useHintsElement.checked)? ((useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer)):"";
         }
     }
@@ -217,164 +430,164 @@ useHintsElement.addEventListener("input", () => {
 document.addEventListener("keydown", (event) => {
     const activeElement = document.activeElement;
 
-    if (activeElement.classList.contains("table-input"))
+    if (!activeElement.classList.contains("table-input"))
     {
-        const row = parseInt(activeElement.dataset.row);
-        const column = parseInt(activeElement.dataset.column);
-        const caretPosition = activeElement.selectionStart;
-        let nextFocus;
+        return;
+    }
 
-        if (event.key == "ArrowUp")
-        {
-            if (row > 1)
-            {
-                nextFocus = document.querySelector(`[data-row="${row - 1}"][data-column="${column}"]`);
-            }
-            else
-            {
-                nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${column}"]`);
-            }
-        }
-        else if (event.key == "ArrowDown")
-        {
-            if (row < currentTable.length - 1)
-            {
-                nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
-            }
-            else
-            {
-                nextFocus = document.querySelector(`[data-row="1"][data-column="${column}"]`);
-            }
-        }
-        else if (event.key == "ArrowLeft" && caretPosition == 0)
-        {
-            if (column > 1)
-            {
-                nextFocus = document.querySelector(`[data-row="${row}"][data-column="${column - 1}"]`);
-            }
-            else
-            {
-                nextFocus = document.querySelector(`[data-row="${row}"][data-column="${currentTable[0].length - 1}"]`);
-            }
-        }
-        else if (event.key == "ArrowRight" && caretPosition == activeElement.value.length)
-        {
-            if (column < currentTable[0].length - 1)
-            {
-                nextFocus = document.querySelector(`[data-row="${row}"][data-column="${column + 1}"]`);
-            }
-            else
-            {
-                nextFocus = document.querySelector(`[data-row="${row}"][data-column="1"]`);
-            }
-        }
-        else if (event.key == "Enter")
-        {
-            if (order == "row")
-            {
-                if (column < currentTable[0].length - 1)
-                {
-                    nextFocus = document.querySelector(`[data-row="${row}"][data-column="${column + 1}"]`);
-                }
-                else
-                {
-                    if (row < currentTable.length - 1)
-                    {
-                        nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="1"]`);
-                    }
-                    else
-                    {
-                        nextFocus = document.querySelector(`[data-row="1"][data-column="1"]`);
-                    }
-                }
-            }
-            else if (order == "column")
-            {
-                if (row < currentTable.length - 1)
-                {
-                    nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
-                }
-                else
-                {
-                    if (column < currentTable[0].length - 1)
-                    {
-                        nextFocus = document.querySelector(`[data-row="1"][data-column="${column + 1}"]`);
-                    }
-                    else
-                    {
-                        nextFocus = document.querySelector(`[data-row="1"][data-column="1"]`);
-                    }
-                }
-            }
-        }
-        else if (event.key == "Backspace" &&
-                (activeElement.value == "" ||
-                    (activeElement.selectionStart == activeElement.selectionEnd && activeElement.selectionStart == 0)))
-        {
-            if (order == "row")
-            {
-                if (column > 1)
-                {
-                    nextFocus = document.querySelector(`[data-row="${row}"][data-column="${column - 1}"]`);
-                }
-                else
-                {
-                    if (row > 1)
-                    {
-                        nextFocus = document.querySelector(`[data-row="${row - 1}"][data-column="${currentTable[0].length - 1}"]`);
-                    }
-                    else
-                    {
-                        nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${currentTable[0].length - 1}"]`);
-                    }
-                }
-            }
-            else if (order == "column")
-            {
-                if (row > 1)
-                {
-                    nextFocus = document.querySelector(`[data-row="${row - 1}"][data-column="${column}"]`);
-                }
-                else
-                {
-                    if (column > 1)
-                    {
-                        nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${column - 1}"]`);
-                    }
-                    else
-                    {
-                        nextFocus = document.querySelector(`[data-row="${currentTable.length - 1}"][data-column="${currentTable[0].length - 1}"]`);
-                    }
-                }
-            }
-        }
-        else if (event.key == "Tab")
-        {
-            if (order == "column")
-            {
-                if (row < currentTable.length - 1)
-                {
-                    nextFocus = document.querySelector(`[data-row="${row + 1}"][data-column="${column}"]`);
-                }
-                else
-                {
-                    if (column < currentTable[0].length - 1)
-                    {
-                        nextFocus = document.querySelector(`[data-row="1"][data-column="${column + 1}"]`);
-                    }
-                }
-            }
-        }
+    const currentRow = parseInt(activeElement.dataset.row);
+    const currentColumn = parseInt(activeElement.dataset.column);
+    
+    let nextRow = currentRow;
+    let nextColumn = currentColumn;
+    let nextCaretPosition = null;
 
-        if (nextFocus)
-        {
-            event.preventDefault();
-            nextFocus.focus();
-
-            if (!activeElement.classList.contains("good") && activeElement.value != "")
+    switch (event.key)
+    {
+        case "ArrowLeft":
+            if (!useKeyboardNavigationElement.checked)
             {
-                activeElement.classList.add("bad");
+                break;
             }
-        }
+
+            if (activeElement.selectionStart == 0)
+            {
+                nextColumn = (currentColumn == 0)? currentTable["columns"].length - 1:currentColumn - 1;
+                nextCaretPosition = -1;
+            }
+
+            break;
+        case "ArrowRight":
+            if (!useKeyboardNavigationElement.checked)
+            {
+                break;
+            }
+
+            if (activeElement.selectionStart == activeElement.value.length)
+            {
+                nextColumn = (currentColumn == currentTable["columns"].length - 1)? 0:currentColumn + 1;
+                nextCaretPosition = 0;
+            }
+
+            break;
+        case "ArrowUp":
+            if (!useKeyboardNavigationElement.checked)
+            {
+                break;
+            }
+
+            if (activeElement.selectionStart == 0)
+            {
+                nextRow = (currentRow == 0)? currentTable["rows"].length - 1:currentRow - 1;
+                nextCaretPosition = -1;
+            }
+
+            break;
+        case "ArrowDown":
+            if (!useKeyboardNavigationElement.checked)
+            {
+                break;
+            }
+
+            if (activeElement.selectionStart == activeElement.value.length)
+            {
+                nextRow = (currentRow == currentTable["rows"].length - 1)? 0:currentRow + 1;
+                nextCaretPosition = 0;
+            }
+
+            break;
+        case "Enter":
+            if (!useKeyboardNavigationElement.checked)
+            {
+                break;
+            }
+
+            if (orderSelectElement.value == "row")
+            {
+                nextColumn = currentColumn + 1;
+                if (nextColumn == currentTable["columns"].length)
+                {
+                    nextRow = (currentRow == currentTable["rows"].length - 1)? 0:currentRow + 1;
+                    nextColumn = 0;
+                }
+            }
+            else
+            {
+                nextRow = currentRow + 1;
+                if (nextRow == currentTable["rows"].length)
+                {
+                    nextRow = 0;
+                    nextColumn = (currentColumn == currentTable["columns"].length - 1)? 0:currentColumn + 1;
+                }
+            }
+
+            break;
+        case "Backspace":
+            if (!useKeyboardNavigationElement.checked || activeElement.selectionStart != 0)
+            {
+                break;
+            }
+
+            if (orderSelectElement.value == "row")
+            {
+                nextColumn = currentColumn - 1;
+                if (nextColumn == -1)
+                {
+                    nextRow = (currentRow == 1)? currentTable["rows"].length - 1:currentRow - 1;
+                    nextColumn = currentTable["columns"].length - 1;
+                }
+            }
+            else
+            {
+                nextRow = currentRow - 1;
+                if (nextRow == -1)
+                {
+                    nextRow = currentTable["rows"].length - 1;
+                    nextColumn = (currentColumn == 1)? currentTable["columns"].length - 1:currentColumn - 1;
+                }
+            }
+            nextCaretPosition = -1;
+
+            break;
+        case "Tab":
+            if (orderSelectElement.value == "row")
+            {
+                break;
+            }
+
+            if (currentRow < currentTable["rows"].length - 1)
+            {
+                nextRow = currentRow + 1;
+            }
+            else if (currentColumn < currentTable["columns"].length - 1)
+            {
+                nextRow = 0;
+                nextColumn = currentColumn + 1;
+            }
+
+            break;
+    }
+
+    if (nextRow == currentRow && nextColumn == currentColumn)
+    {
+        return;
+    }
+
+    event.preventDefault();
+
+    const nextFocus = document.querySelector(`[data-row="${nextRow}"][data-column="${nextColumn}"]`);
+    nextFocus.focus();
+
+    if (nextCaretPosition)
+    {
+        nextFocus.selectionStart = (nextCaretPosition == 0)? 0:nextFocus.value.length;
+    }
+    
+    if (!activeElement.classList.contains("good") && activeElement.value != "")
+    {
+        activeElement.classList.add("bad");
     }
 });
+
+mainInputsElement.style.display = "flex";
+generateTable();

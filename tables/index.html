@@ -11,7 +11,7 @@
             <custom-menu></custom-menu>
             <a href="../" id="title">Study Latin</a>
         </header>
-        <main id="main">
+        <main>
             <select id="table-select">
                 <option value="" disabled selected>Select a table</option>
             </select>
@@ -22,15 +22,9 @@
             <label>Macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
             <label>Hints<custom-toggle id="use-hints"></custom-toggle></label>
             <label>Keyboard navigation<custom-toggle id="use-keyboard-navigation" checked></custom-toggle></label>
-            <div id="main-inputs-container">
+            <div id="main-inputs">
                 <table id="table"></table>
-                <div id="macron-character-buttons-container">
-                    <button id="macron-a" class="macron-character-button">ā</button>
-                    <button id="macron-e" class="macron-character-button">ē</button>
-                    <button id="macron-i" class="macron-character-button">ī</button>
-                    <button id="macron-o" class="macron-character-button">ō</button>
-                    <button id="macron-u" class="macron-character-button">ū</button>
-                </div>
+                <macron-character-buttons></macron-character-buttons>
             </div>
         </main>
         <footer>
