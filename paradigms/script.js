@@ -1,3 +1,5 @@
+const personSelectElement = document.getElementById("person-select");
+const numberSelectElement = document.getElementById("number-select");
 const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
@@ -8,10 +10,9 @@ const mainInputsElement = document.getElementById("main-inputs");
 const promptElement = document.getElementById("prompt");
 const tableElement = document.getElementById("table");
 
-let removeElementFocused = document.activeElement == removeElement;
-let restoreElementFocused = document.activeElement == restoreElement;
-
 let currentTable = {};
+let currentPerson = Math.floor(Math.random() * 3);
+let currentNumber = Math.floor(Math.random() * 2);
 let currentPrompt = "";
 
 function getVerbType(verb)
@@ -319,11 +320,9 @@ function getVerbTable(verb, personNumber, gender=0)
 function generateTable()
 {
     const verb = verbs[Math.floor(Math.random() * verbs.length)];
-    const person = Math.floor(Math.random() * 3);
-    const number = Math.floor(Math.random() * 2);
 
-    currentTable = getVerbTable(verb, person + number * 3);
-    currentPrompt = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${person + 1}${["st", "nd", "rd"][person]} ${(number == 0)? "s.":"p."}`;
+    currentTable = getVerbTable(verb, currentPerson + currentNumber * 3);
+    currentPrompt = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${currentPerson + 1}${["st", "nd", "rd"][currentPerson]} ${(currentNumber == 0)? "s.":"p."}`;
 
     promptElement.textContent = (useMacronsElement.checked)? currentPrompt:removeMacrons(currentPrompt);
 
@@ -403,11 +402,13 @@ function generateTable()
                 if (activeElement == removeElement)
                 {
                     inputElement.readOnly = true;
+                    inputElement.placeholder = "";
                     event.preventDefault();
                 }
                 else if (activeElement == restoreElement)
                 {
                     inputElement.readOnly = false;
+                    inputElement.placeholder = currentTable["data"][inputElement.dataset.row][inputElement.dataset.column];
                     event.preventDefault();
                 }
             });
@@ -420,6 +421,16 @@ function removeMacrons(text)
     return text.replaceAll("ā", "a").replaceAll("ē", "e").replaceAll("ī", "i").replaceAll("ō", "o").replaceAll("ū", "u").replaceAll("Ā", "A").replaceAll("Ē", "E").replaceAll("Ī", "I").replaceAll("Ō", "O").replaceAll("Ū", "U");
 }
 
+personSelectElement.addEventListener("input", () => {
+    currentPerson = (personSelectElement.value == "random")? Math.floor(Math.random() * 3):parseInt(personSelectElement.value);
+    generateTable();
+});
+
+numberSelectElement.addEventListener("input", () => {
+    currentNumber = (numberSelectElement.value == "random")? Math.floor(Math.random() * 2):parseInt(numberSelectElement.value);
+    generateTable();
+});
+
 useMacronsElement.addEventListener("input", () => {
     for (let row = 0; row < currentTable["rows"].length; row++)
     {
@@ -427,7 +438,7 @@ useMacronsElement.addEventListener("input", () => {
         {
             const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
 
-            if (!currentInputElement)
+            if (!currentInputElement || currentInputElement.readOnly)
             {
                 continue;
             }
@@ -451,7 +462,7 @@ useHintsElement.addEventListener("input", () => {
         {
             const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
 
-            if (!currentInputElement)
+            if (!currentInputElement || currentInputElement.readOnly)
             {
                 continue;
             }
@@ -557,7 +568,7 @@ document.addEventListener("keydown", (event) => {
     }
 
     let nextFocus;
-    while (!nextFocus || nextFocus.readonly)
+    while (!nextFocus || nextFocus.readOnly)
     {
         currentRow += movement[1];
         currentColumn += movement[0];
@@ -644,7 +655,7 @@ document.addEventListener("keydown", (event) => {
 mainInputsElement.style.display = "flex";
 generateTable();
 window.addEventListener("load", () => {
-    const rows = Array.from(tableElement.rows);
+    const rows = Array.from(tableElement.rows).slice(1);
     const maxRowHeight = Math.max(...rows.map((row) => row.getBoundingClientRect().height));
     rows.forEach((row) => Array.from(row.cells).forEach((cell) => cell.style.height = `${maxRowHeight}px`));
 }, {once:true});

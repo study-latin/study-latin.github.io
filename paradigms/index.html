@@ -13,6 +13,17 @@
             <a href="../" id="title">Study Latin</a>
         </header>
         <main>
+            <select id="person-select">
+                <option value="random">Random</option>
+                <option value="0">1st person</option>
+                <option value="1">2nd person</option>
+                <option value="2">3rd person</option>
+            </select>
+            <select id="number-select">
+                <option value="random">Random</option>
+                <option value="0">Singular</option>
+                <option value="1">Plural</option>
+            </select>
             <select id="order-select">
                 <option value="row" selected>By row</option>
                 <option value="column">By column</option>
@@ -24,11 +35,11 @@
                 <p id="prompt"></p>
                 <table id="table"></table>
                 <div id="buttons-container">
+                    <macron-character-buttons></macron-character-buttons>
                     <div id="remove-restore-container">
                         <button id="remove"><span class="material-symbols-outlined">delete</span></button>
                         <button id="restore"><span class="material-symbols-outlined">restore_from_trash</span></button>
                     </div>
-                    <macron-character-buttons></macron-character-buttons>
                 </div>
             </div>
         </main>
