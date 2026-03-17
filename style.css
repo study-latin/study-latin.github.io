@@ -279,7 +279,7 @@ macron-character-buttons
     display:flex;
     flex-direction:row;
     align-self:center;
-    margin-top:1rem;
+    gap:1rem;
 }
 
 #flashcard-container
@@ -364,14 +364,30 @@ input[type="text"]
     transition-duration:0.15s;
 }
 
-input[type="text"]:not(:disabled):hover, input[type="text"]:not(:disabled):focus
+input[type="text"]:not(:read-only):hover, input[type="text"]:not(:read-only):focus
 {
     outline-color:var(--highlight);
 }
 
-input[type="text"]:disabled
+input[type="text"]:read-only
 {
     background-color:var(--neutral);
+    cursor:not-allowed;
+}
+
+input[type="text"]:read-only:hover
+{
+    outline-color:var(--text-light);
+}
+
+body:has(#remove:focus) .table-input:disabled:hover, body:has(#restore:focus) .table-input:not(:read-only):hover
+{
+    cursor:not-allowed;
+}
+
+body:has(#remove:focus) .table-input:not(:read-only):hover, body:has(#restore:focus) .table-input:read-only:hover
+{
+    cursor:pointer; /* kinda glitchy for the first selector, idk why */
 }
 
 .table-input.bad:hover, .table-input.bad:focus
@@ -405,9 +421,65 @@ button:active
 
 macron-character-buttons button
 {
-    margin:0.8rem;
     width:3.25rem;
     height:3.25rem;
+}
+
+#remove-restore-container
+{
+    display:flex;
+    gap:1rem;
+}
+
+#remove
+{
+    width:3.25rem;
+    height:3.25rem;
+}
+
+#remove:focus, #remove:hover
+{
+    outline-color:var(--bad);
+}
+
+#remove:active
+{
+    background-color:var(--bad);
+}
+
+#remove:active .material-symbols-outlined
+{
+    color:var(--text-dark);
+}
+
+#restore
+{
+    width:3.25rem;
+    height:3.25rem;
+}
+
+#restore:focus, #restore:hover
+{
+    outline-color:var(--good);
+}
+
+#restore:active
+{
+    background-color:var(--good);
+}
+
+#restore:active .material-symbols-outlined
+{
+    color:var(--text-dark);
+}
+
+#buttons-container
+{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1rem;
+    margin-top:1rem;
 }
 
 #flashcard-buttons > button

@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,restore_from_trash">
         <link rel="stylesheet" href="../style.css">
         <title>Paradigms | Study Latin</title>
     </head>
@@ -22,7 +23,13 @@
             <div id="main-inputs">
                 <p id="prompt"></p>
                 <table id="table"></table>
-                <macron-character-buttons></macron-character-buttons>
+                <div id="buttons-container">
+                    <div id="remove-restore-container">
+                        <button id="remove"><span class="material-symbols-outlined">delete</span></button>
+                        <button id="restore"><span class="material-symbols-outlined">restore_from_trash</span></button>
+                    </div>
+                    <macron-character-buttons></macron-character-buttons>
+                </div>
             </div>
         </main>
         <footer>

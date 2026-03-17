@@ -2,9 +2,14 @@ const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
 const useKeyboardNavigationElement = document.getElementById("use-keyboard-navigation");
+const removeElement = document.getElementById("remove");
+const restoreElement = document.getElementById("restore");
 const mainInputsElement = document.getElementById("main-inputs");
 const promptElement = document.getElementById("prompt");
 const tableElement = document.getElementById("table");
+
+let removeElementFocused = document.activeElement == removeElement;
+let restoreElementFocused = document.activeElement == restoreElement;
 
 let currentTable = {};
 let currentPrompt = "";
@@ -393,6 +398,19 @@ function generateTable()
                     inputElement.classList.remove("bad");
                 }
             });
+            inputElement.addEventListener("mousedown", (event) => {
+                const activeElement = document.activeElement;
+                if (activeElement == removeElement)
+                {
+                    inputElement.readOnly = true;
+                    event.preventDefault();
+                }
+                else if (activeElement == restoreElement)
+                {
+                    inputElement.readOnly = false;
+                    event.preventDefault();
+                }
+            });
         }
     }
 }
@@ -539,7 +557,7 @@ document.addEventListener("keydown", (event) => {
     }
 
     let nextFocus;
-    while (!nextFocus)
+    while (!nextFocus || nextFocus.readonly)
     {
         currentRow += movement[1];
         currentColumn += movement[0];
