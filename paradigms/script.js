@@ -7,6 +7,7 @@ const promptElement = document.getElementById("prompt");
 const tableElement = document.getElementById("table");
 
 let currentTable = {};
+let currentPrompt = "";
 
 function getVerbType(verb)
 {
@@ -68,7 +69,7 @@ function formatWithVerb(text, verb, otherReplacements={})
     let replacements = {
         ...otherReplacements,
         "1":verb[1].slice(0, (type != "deponent" || (conjugation != 2 && conjugation != 3))? -3:-1),
-        "-1":verb.at(-1).slice(0, (type == "regular")? -2:-4)
+        "-1":verb.at(-1).slice(0, (type == "regular")? -2:-6)
     };
     if (verb.length == 4)
     {
@@ -317,8 +318,9 @@ function generateTable()
     const number = Math.floor(Math.random() * 2);
 
     currentTable = getVerbTable(verb, person + number * 3);
+    currentPrompt = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${person + 1}${["st", "nd", "rd"][person]} ${(number == 0)? "s.":"p."}`;
 
-    promptElement.textContent = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${person + 1}${["st", "nd", "rd"][person]} ${(number == 0)? "s.":"p."}`;
+    promptElement.textContent = (useMacronsElement.checked)? currentPrompt:removeMacrons(currentPrompt);
 
     const tableHeadElement = document.createElement("thead");
 
@@ -355,19 +357,17 @@ function generateTable()
 
             const tableDataElement = document.createElement("td");
             tableRowElement.append(tableDataElement);
+
+            if (!currentInputAnswer)
+            {
+                continue;
+            }
             
             const inputElement = document.createElement("input");
             tableDataElement.append(inputElement);
 
             inputElement.type = "text";
             inputElement.name = "input";
-
-            if (!currentInputAnswer)
-            {
-                inputElement.disabled = true;
-                continue;
-            }
-
             inputElement.spellcheck = false;
             inputElement.autocomplete = "off";
             inputElement.className = "table-input";
@@ -407,9 +407,18 @@ useMacronsElement.addEventListener("input", () => {
     {
         for (let column = 0; column < currentTable["columns"].length; column++)
         {
-            document.querySelector(`[data-row="${row}"][data-column="${column}"]`).dispatchEvent(new Event("input"));
+            const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
+
+            if (!currentInputElement)
+            {
+                continue;
+            }
+
+            currentInputElement.dispatchEvent(new Event("input"));
         }
     }
+
+    promptElement.textContent = (useMacronsElement.checked)? currentPrompt:removeMacrons(currentPrompt);
 
     if (useHintsElement.checked)
     {
@@ -423,6 +432,12 @@ useHintsElement.addEventListener("input", () => {
         for (let column = 0; column < currentTable["columns"].length; column++)
         {
             const currentInputElement = document.querySelector(`[data-row="${row}"][data-column="${column}"]`);
+
+            if (!currentInputElement)
+            {
+                continue;
+            }
+
             const currentAnswer = currentTable["data"][row][column];
             currentInputElement.placeholder = (useHintsElement.checked)? ((useMacronsElement.checked)? currentAnswer:removeMacrons(currentAnswer)):"";
         }
@@ -610,3 +625,8 @@ document.addEventListener("keydown", (event) => {
 
 mainInputsElement.style.display = "flex";
 generateTable();
+window.addEventListener("load", () => {
+    const rows = Array.from(tableElement.rows);
+    const maxRowHeight = Math.max(...rows.map((row) => row.getBoundingClientRect().height));
+    rows.forEach((row) => Array.from(row.cells).forEach((cell) => cell.style.height = `${maxRowHeight}px`));
+}, {once:true});
