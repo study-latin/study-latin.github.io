@@ -4,8 +4,7 @@ const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
 const useKeyboardNavigationElement = document.getElementById("use-keyboard-navigation");
-const removeElement = document.getElementById("remove");
-const restoreElement = document.getElementById("restore");
+const editElement = document.getElementById("edit");
 const mainInputsElement = document.getElementById("main-inputs");
 const promptElement = document.getElementById("prompt");
 const tableElement = document.getElementById("table");
@@ -399,16 +398,20 @@ function generateTable()
             });
             inputElement.addEventListener("mousedown", (event) => {
                 const activeElement = document.activeElement;
-                if (activeElement == removeElement)
+                if (activeElement == editElement)
                 {
-                    inputElement.readOnly = true;
-                    inputElement.placeholder = "";
-                    event.preventDefault();
-                }
-                else if (activeElement == restoreElement)
-                {
-                    inputElement.readOnly = false;
-                    inputElement.placeholder = currentTable["data"][inputElement.dataset.row][inputElement.dataset.column];
+                    inputElement.readOnly = !inputElement.readOnly;
+                    if (!inputElement.readOnly)
+                    {
+                        inputElement.dispatchEvent(new Event("input"));
+                        inputElement.placeholder = (useHintsElement.checked)? ((useMacronsElement.checked)? currentInputAnswer:removeMacrons(currentInputAnswer)):"";
+                    }
+                    else
+                    {
+                        inputElement.classList.remove("good");
+                        inputElement.classList.remove("bad");
+                        inputElement.placeholder = "";
+                    }
                     event.preventDefault();
                 }
             });

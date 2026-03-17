@@ -372,6 +372,7 @@ input[type="text"]:not(:read-only):hover, input[type="text"]:not(:read-only):foc
 input[type="text"]:read-only
 {
     background-color:var(--neutral);
+    color:#0000;
     cursor:not-allowed;
 }
 
@@ -380,17 +381,25 @@ input[type="text"]:read-only:hover
     outline-color:var(--text-light);
 }
 
-body:has(#remove:focus) .table-input:disabled:hover, body:has(#restore:focus) .table-input:not(:read-only):hover
+body:has(#edit:focus) .table-input:hover
 {
-    cursor:not-allowed;
+    cursor:pointer;
 }
 
-body:has(#remove:focus) .table-input:not(:read-only):hover, body:has(#restore:focus) .table-input:read-only:hover
+body:has(#edit:focus) .table-input:not(:read-only):hover
 {
-    cursor:pointer; /* kinda glitchy for the first selector, idk why */
+    background-color:var(--bad);
+    outline-color:var(--bad);
+    color:var(--text-dark);
 }
 
-.table-input.bad:hover, .table-input.bad:focus
+body:has(#edit:focus) .table-input:read-only:hover
+{
+    background-color:var(--good);
+    outline-color:var(--good);
+}
+
+body:not(:has(#edit:focus)) .table-input.bad:hover, body:not(:has(#edit:focus)) .table-input.bad:focus
 {
     outline-color:var(--highlight)!important;
 }
@@ -425,50 +434,13 @@ macron-character-buttons button
     height:3.25rem;
 }
 
-#remove-restore-container
-{
-    display:flex;
-    gap:1rem;
-}
-
-#remove
+#edit
 {
     width:3.25rem;
     height:3.25rem;
 }
 
-#remove:focus, #remove:hover
-{
-    outline-color:var(--bad);
-}
-
-#remove:active
-{
-    background-color:var(--bad);
-}
-
-#remove:active .material-symbols-outlined
-{
-    color:var(--text-dark);
-}
-
-#restore
-{
-    width:3.25rem;
-    height:3.25rem;
-}
-
-#restore:focus, #restore:hover
-{
-    outline-color:var(--good);
-}
-
-#restore:active
-{
-    background-color:var(--good);
-}
-
-#restore:active .material-symbols-outlined
+#edit:active .material-symbols-outlined
 {
     color:var(--text-dark);
 }
