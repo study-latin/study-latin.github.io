@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 :root
 {
     --background-1:#12131a;
@@ -443,6 +441,23 @@ macron-character-buttons button
 #edit:active .material-symbols-outlined
 {
     color:var(--text-dark);
+}
+
+#next
+{
+    width:3.25rem;
+    height:3.25rem;
+}
+
+#next:active .material-symbols-outlined
+{
+    color:var(--text-dark);
+}
+
+div:has(#edit):has(#next)
+{
+    display:flex;
+    gap:1rem;
 }
 
 #buttons-container

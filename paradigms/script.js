@@ -5,6 +5,7 @@ const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
 const useKeyboardNavigationElement = document.getElementById("use-keyboard-navigation");
 const editElement = document.getElementById("edit");
+const nextElement = document.getElementById("next");
 const mainInputsElement = document.getElementById("main-inputs");
 const promptElement = document.getElementById("prompt");
 const tableElement = document.getElementById("table");
@@ -417,6 +418,11 @@ function generateTable()
             });
         }
     }
+
+    if (useHintsElement.checked)
+    {
+        useHintsElement.dispatchEvent(new Event("input"));
+    }
 }
 
 function removeMacrons(text)
@@ -475,6 +481,8 @@ useHintsElement.addEventListener("input", () => {
         }
     }
 });
+
+nextElement.addEventListener("click", () => generateTable());
 
 document.addEventListener("keydown", (event) => {
     const activeElement = document.activeElement;

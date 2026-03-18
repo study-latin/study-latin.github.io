@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=edit,skip_next">
+
         <link rel="stylesheet" href="../style.css">
+
         <title>Paradigms | Study Latin</title>
     </head>
     <body>
@@ -28,21 +33,28 @@
                 <option value="row" selected>By row</option>
                 <option value="column">By column</option>
             </select>
+
             <label>Macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
             <label>Hints<custom-toggle id="use-hints"></custom-toggle></label>
             <label>Keyboard navigation<custom-toggle id="use-keyboard-navigation" checked></custom-toggle></label>
+
             <div id="main-inputs">
                 <p id="prompt"></p>
                 <table id="table"></table>
+
                 <div id="buttons-container">
                     <macron-character-buttons></macron-character-buttons>
-                    <button id="edit"><span class="material-symbols-outlined">edit</span></button>
+                    <div>
+                        <button id="edit"><span class="material-symbols-outlined">edit</span></button>
+                        <button id="next"><span class="material-symbols-outlined">skip_next</span></button>
+                    </div>
                 </div>
             </div>
         </main>
         <footer>
             <p>Suggestions/bug reports <a href="mailto:studylatin1@gmail.com">here</a></p>
         </footer>
+
         <script src="../custom-elements.js"></script>
         <script src="../paradigms/verbs.js"></script>
         <script src="../paradigms/endings.js"></script>
