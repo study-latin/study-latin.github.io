@@ -215,10 +215,18 @@ select:focus, select:hover
 
 label
 {
+    display:flex;
+    align-items:center;
     width:100%;
     font-size:small;
     user-select:none;
     pointer-events:none;
+}
+
+label:has(select)
+{
+    align-items:baseline;
+    flex-direction:column;
 }
 
 label *
@@ -240,7 +248,6 @@ label > select
 custom-toggle
 {
     display:inline-block;
-    vertical-align:middle;
     width:var(--toggle-width);
     height:var(--toggle-height);
     border-radius:var(--infinity);
@@ -569,16 +576,16 @@ div:has(#edit):has(#next)
 {
     display:flex;
     justify-content:space-between;
+    flex-direction:row;
     flex-wrap:wrap;
     align-self:center;
     width:100%;
     max-width:60rem;
 }
 
-#numbers-inputs-container > div
+#numbers-inputs-container > div:has(label)
 {
-    display:flex;
-    flex-direction:column;
+    width:auto;
 }
 
 footer

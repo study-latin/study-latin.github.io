@@ -17,17 +17,33 @@
             <a href="../" id="title">Study Latin</a>
         </header>
         <main>
-            <select id="table-select">
-                <option value="" disabled selected>Select a table</option>
-            </select>
-            <select id="order-select">
-                <option value="row" selected>By row</option>
-                <option value="column">By column</option>
-            </select>
-
-            <label>Macrons<custom-toggle id="use-macrons" checked></custom-toggle></label>
-            <label>Hints<custom-toggle id="use-hints"></custom-toggle></label>
-            <label>Keyboard navigation<custom-toggle id="use-keyboard-navigation" checked></custom-toggle></label>
+            <div>
+                <label>
+                    Table
+                    <select id="table-select">
+                        <option value="" disabled selected>Select a table</option>
+                    </select>
+                </label>
+                <label>
+                    Table navigation order
+                    <select id="order-select">
+                        <option value="row" selected>By row</option>
+                        <option value="column">By column</option>
+                    </select>
+                </label>
+                <label>
+                    Macrons
+                    <custom-toggle id="use-macrons" checked></custom-toggle>
+                </label>
+                <label>
+                    Hints
+                    <custom-toggle id="use-hints"></custom-toggle>
+                </label>
+                <label>
+                    Keyboard navigation
+                    <custom-toggle id="use-keyboard-navigation" checked></custom-toggle>
+                </label>
+            </div>
 
             <div id="main-inputs">
                 <table id="table"></table>
