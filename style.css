@@ -186,12 +186,17 @@ main
     flex-direction:column;
     flex-grow:1;
     padding:2rem;
-    /* padding-bottom:1rem; */
+}
+
+div:has(label)
+{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
 }
 
 select
 {
-    margin-bottom:1.5rem;
     padding:0.5rem;
     background-color:var(--background-1);
     color:var(--text-light);
@@ -210,18 +215,26 @@ select:focus, select:hover
 
 label
 {
-    margin-bottom:1.5rem;
-    font-size:100rem;
-    width:max-content;
+    width:100%;
     font-size:small;
     user-select:none;
     pointer-events:none;
 }
 
+label *
+{
+    pointer-events:all;
+}
+
 label > custom-toggle
 {
-    margin:0 0.5rem;
-    pointer-events:all;
+    margin-left:0.5rem;
+}
+
+label > select
+{
+    margin-top:0.5rem;
+    width:100%;
 }
 
 custom-toggle

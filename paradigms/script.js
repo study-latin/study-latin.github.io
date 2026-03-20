@@ -1,5 +1,6 @@
 const personSelectElement = document.getElementById("person-select");
 const numberSelectElement = document.getElementById("number-select");
+const genderSelectElement = document.getElementById("gender-select");
 const orderSelectElement = document.getElementById("order-select");
 const useMacronsElement = document.getElementById("use-macrons");
 const useHintsElement = document.getElementById("use-hints");
@@ -11,8 +12,6 @@ const promptElement = document.getElementById("prompt");
 const tableElement = document.getElementById("table");
 
 let currentTable = {};
-let currentPerson = Math.floor(Math.random() * 3);
-let currentNumber = Math.floor(Math.random() * 2);
 let currentPrompt = "";
 
 function getVerbType(verb)
@@ -320,9 +319,12 @@ function getVerbTable(verb, personNumber, gender=0)
 function generateTable()
 {
     const verb = verbs[Math.floor(Math.random() * verbs.length)];
+    const currentPerson = (personSelectElement.value == "random")? Math.floor(Math.random() * 3):parseInt(personSelectElement.value);
+    const currentNumber = (numberSelectElement.value == "random")? Math.floor(Math.random() * 2):parseInt(numberSelectElement.value);
+    const currentGender = (genderSelectElement.value == "random")? Math.floor(Math.random() * 3):parseInt(genderSelectElement.value);
 
-    currentTable = getVerbTable(verb, currentPerson + currentNumber * 3);
-    currentPrompt = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${currentPerson + 1}${["st", "nd", "rd"][currentPerson]} ${(currentNumber == 0)? "s.":"p."}`;
+    currentTable = getVerbTable(verb, currentPerson + currentNumber * 3, currentGender);
+    currentPrompt = `${verb[0]}, ${verb[1]}, ${verb[2]}${(verb.length == 4)? `, ${verb[3]}`:""} | ${currentPerson + 1}${["st", "nd", "rd"][currentPerson]} ${["s", "p"][currentNumber]}. ${["m", "f", "n"][currentGender]}.`;
 
     promptElement.textContent = (useMacronsElement.checked)? currentPrompt:removeMacrons(currentPrompt);
 
@@ -371,7 +373,6 @@ function generateTable()
             tableDataElement.append(inputElement);
 
             inputElement.type = "text";
-            inputElement.name = "input";
             inputElement.spellcheck = false;
             inputElement.autocomplete = "off";
             inputElement.className = "table-input";
@@ -419,6 +420,10 @@ function generateTable()
         }
     }
 
+    const rows = Array.from(tableElement.rows).slice(1);
+    const maxRowHeight = Math.max(...rows.map((row) => row.getBoundingClientRect().height));
+    rows.forEach((row) => Array.from(row.cells).forEach((cell) => cell.style.height = `${maxRowHeight}px`));
+
     if (useHintsElement.checked)
     {
         useHintsElement.dispatchEvent(new Event("input"));
@@ -430,15 +435,11 @@ function removeMacrons(text)
     return text.replaceAll("ā", "a").replaceAll("ē", "e").replaceAll("ī", "i").replaceAll("ō", "o").replaceAll("ū", "u").replaceAll("Ā", "A").replaceAll("Ē", "E").replaceAll("Ī", "I").replaceAll("Ō", "O").replaceAll("Ū", "U");
 }
 
-personSelectElement.addEventListener("input", () => {
-    currentPerson = (personSelectElement.value == "random")? Math.floor(Math.random() * 3):parseInt(personSelectElement.value);
-    generateTable();
-});
+personSelectElement.addEventListener("input", () => generateTable());
 
-numberSelectElement.addEventListener("input", () => {
-    currentNumber = (numberSelectElement.value == "random")? Math.floor(Math.random() * 2):parseInt(numberSelectElement.value);
-    generateTable();
-});
+numberSelectElement.addEventListener("input", () => generateTable());
+
+genderSelectElement.addEventListener("input", () => generateTable());
 
 useMacronsElement.addEventListener("input", () => {
     for (let row = 0; row < currentTable["rows"].length; row++)
@@ -665,8 +666,3 @@ document.addEventListener("keydown", (event) => {
 
 mainInputsElement.style.display = "flex";
 generateTable();
-window.addEventListener("load", () => {
-    const rows = Array.from(tableElement.rows).slice(1);
-    const maxRowHeight = Math.max(...rows.map((row) => row.getBoundingClientRect().height));
-    rows.forEach((row) => Array.from(row.cells).forEach((cell) => cell.style.height = `${maxRowHeight}px`));
-}, {once:true});
